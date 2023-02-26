@@ -50,7 +50,7 @@ export default function DashboardHeader({
           px: { lg: 5 },
         }}
       >
-        {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5 }} />}
+        {/* {isDesktop && verticalLayout && <Logo sx={{ mr: 2.5 }} />} */}
 
         {!isDesktop && (
           <Iconify

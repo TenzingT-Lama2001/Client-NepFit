@@ -11,6 +11,7 @@ import { useTheme } from "@mui/system";
 import NavbarAccount from "./NavbarAccount";
 import navConfig from "./NavConfig";
 import NavSectionVertical from "../../../components/nav-section/vertical";
+import useAuth from "../../../hooks/useAuth";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("lg")]: {
@@ -24,6 +25,7 @@ type Props = {
   isOpenSidebar: boolean;
   onCloseSidebar: VoidFunction;
 };
+
 export default function NavbarVertical({
   isOpenSidebar,
   onCloseSidebar,
@@ -31,6 +33,8 @@ export default function NavbarVertical({
   const theme = useTheme();
   const { pathname } = useRouter();
   const isDesktop = useResponsive("up", "lg");
+  const { auth } = useAuth();
+  const role = "Admin";
 
   const {
     isCollapse,
@@ -46,7 +50,23 @@ export default function NavbarVertical({
       onCloseSidebar();
     }
   }, [pathname]);
-
+  let navList;
+  switch (role) {
+    case "Admin":
+      navList = navConfig.adminNavConfig;
+      break;
+    case "Member":
+      navList = navConfig.memberNavConfig;
+      break;
+    case "Trainer":
+      navList = navConfig.trainerNavConfig;
+      break;
+    case "Staff":
+      navList = navConfig.staffNavConfig;
+      break;
+    default:
+      return null;
+  }
   const renderContent = (
     <Scrollbar
       sx={{
@@ -74,13 +94,13 @@ export default function NavbarVertical({
             alignItems="center"
             justifyContent="space-between"
           >
-            <Logo />
+            {/* <Logo /> */}
           </Stack>
         )}
         <NavbarAccount />
       </Stack>
 
-      {navConfig.map((group) =>
+      {navList.map((group) =>
         group.items.map((list) => (
           <NavSectionVertical key={list.title} data={list} />
         ))
@@ -110,7 +130,7 @@ export default function NavbarVertical({
             alignItems="center"
             padding={2}
           >
-            <Logo />
+            {/* <Logo /> */}
             <Iconify
               icon="ci:close-big"
               sx={{

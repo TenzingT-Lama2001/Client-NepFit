@@ -28,9 +28,7 @@ type Props = {
 export default function LogoOnlyLayout({ children }: Props) {
   return (
     <>
-      <HeaderStyle>
-        <Logo />
-      </HeaderStyle>
+      <HeaderStyle>{/* <Logo /> */}</HeaderStyle>
       {children}
     </>
   );
