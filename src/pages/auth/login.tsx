@@ -10,11 +10,16 @@ import {
 } from "@mui/material";
 import Page from "../../components/Page";
 import useResponsive from "../../hooks/useResponsive";
-import { PATH_AUTH } from "../../routes/path";
+import { PATH_AUTH, PATH_DASHBOARD } from "../../routes/path";
 import Logo from "../Logo";
 import NextLink from "next/link";
 import Image from "../../components/Image";
 import LoginForm from "../../sections/auth/login/LoginForm";
+import { useEffect, useState } from "react";
+import useRefreshToken from "../../hooks/useRefreshToken";
+import { useRouter } from "next/router";
+import useAuth from "../../hooks/useAuth";
+import LoadingScreen from "../../components/LoadingScreen";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -60,64 +65,93 @@ const ContentStyle = styled("div")(({ theme }) => ({
 export default function Login() {
   const smUp = useResponsive("up", "sm");
   const mdUp = useResponsive("up", "md");
+  const refresh = useRefreshToken();
+  const { auth, setAuth } = useAuth();
+  const { push } = useRouter();
+
+  const autoLogin = async () => {
+    try {
+      const response = await refresh();
+      console.log("response", response);
+      if (response && auth?.role) {
+        console.log("auth!!!!!!!!!!!!!!!!!!!!!", auth);
+        push(`${PATH_DASHBOARD.dashboard[auth.role].root}`);
+      }
+    } catch (err) {
+      console.log("catch err", err);
+    }
+  };
+  // Call autoLogin when the component mounts
+  useEffect(() => {
+    autoLogin();
+  }, []);
+
+  useEffect(() => {
+    !auth?.accessToken
+      ? autoLogin()
+      : push(PATH_DASHBOARD.dashboard[auth?.role].root);
+  }, [refresh, auth, push]);
   return (
-    <Page title="Login">
-      <RootStyle>
-        <HeaderStyle>
-          {/* <Logo /> */}
-          {smUp && (
-            <Typography variant="body2" sx={{ mt: { md: -2 } }}>
-              Don’t have an account? {""}
-              <NextLink href={PATH_AUTH.register} passHref>
-                <Link variant="subtitle2">Get started</Link>
-              </NextLink>
-            </Typography>
-          )}
-        </HeaderStyle>
-
-        {mdUp && (
-          <SectionStyle>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
-            </Typography>
-            <Image
-              visibleByDefault
-              disabledEffect
-              src="/assets/illustrations/illustration_login.png"
-              alt="login"
-            />
-          </SectionStyle>
-        )}
-
-        <Container maxWidth="sm">
-          <ContentStyle>
-            <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
-              <Box sx={{ flexGrow: 1 }}>
-                <Typography variant="h4" gutterBottom>
-                  Sign in to NepFit
-                </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
-                  Enter your details below.
-                </Typography>
-              </Box>
-            </Stack>
-            <Alert severity="info" sx={{ mb: 3 }}>
-              Use email : <strong>demo@nepfit.com</strong> / password :
-              <strong>demo1234</strong>
-            </Alert>
-
-            <LoginForm />
-            {!smUp && (
-              <Typography variant="body2" align="center" sx={{ mt: 3 }}>
-                Don’t have an account?{" "}
+    <>
+      <Page title="Login">
+        <RootStyle>
+          <HeaderStyle>
+            {/* <Logo /> */}
+            {smUp && (
+              <Typography variant="body2" sx={{ mt: { md: -2 } }}>
+                Don’t have an account? {""}
                 <NextLink href={PATH_AUTH.register} passHref>
                   <Link variant="subtitle2">Get started</Link>
                 </NextLink>
               </Typography>
             )}
-          </ContentStyle>
-        </Container>
-      </RootStyle>
-    </Page>
+          </HeaderStyle>
+
+          {mdUp && (
+            <SectionStyle>
+              <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
+                Hi, Welcome Back
+              </Typography>
+              <Image
+                visibleByDefault
+                disabledEffect
+                src="/assets/illustrations/illustration_login.png"
+                alt="login"
+              />
+            </SectionStyle>
+          )}
+
+          <Container maxWidth="sm">
+            <ContentStyle>
+              <Stack direction="row" alignItems="center" sx={{ mb: 5 }}>
+                <Box sx={{ flexGrow: 1 }}>
+                  <Typography variant="h4" gutterBottom>
+                    Sign in to NepFit
+                  </Typography>
+                  <Typography sx={{ color: "text.secondary" }}>
+                    Enter your details below.
+                  </Typography>
+                </Box>
+              </Stack>
+              <Alert severity="info" sx={{ mb: 3 }}>
+                Use email : <strong>me@mydomain.com</strong> / password :
+                <strong>password123</strong>
+              </Alert>
+
+              <LoginForm />
+              {!smUp && (
+                <Typography variant="body2" align="center" sx={{ mt: 3 }}>
+                  Don’t have an account?{" "}
+                  <NextLink href={PATH_AUTH.register} passHref>
+                    <Link variant="subtitle2">Get started</Link>
+                  </NextLink>
+                </Typography>
+              )}
+            </ContentStyle>
+          </Container>
+        </RootStyle>
+      </Page>
+      )
+    </>
   );
 }

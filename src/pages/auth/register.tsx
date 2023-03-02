@@ -1,11 +1,16 @@
 import { Card, styled, Typography, Link, Container, Box } from "@mui/material";
 import Page from "../../components/Page";
 import useResponsive from "../../hooks/useResponsive";
-import { PATH_AUTH } from "../../routes/path";
+import { PATH_AUTH, PATH_DASHBOARD } from "../../routes/path";
 import Logo from "../Logo";
 import NextLink from "next/link";
 import Image from "../../components/Image";
 import RegisterForm from "../../sections/auth/register/RegisterForm";
+import { useEffect } from "react";
+import useAuth from "../../hooks/useAuth";
+import { useRouter } from "next/router";
+import { AutoLogin } from "../../utils/autoLogin";
+import useRefreshToken from "../../hooks/useRefreshToken";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -51,7 +56,31 @@ const ContentStyle = styled("div")(({ theme }) => ({
 export default function Register() {
   const smUp = useResponsive("up", "sm");
   const mdUp = useResponsive("up", "md");
+  const { auth } = useAuth();
+  const { push } = useRouter();
+  const refresh = useRefreshToken();
+  const autoLogin = async () => {
+    try {
+      const response = await refresh();
+      console.log("response", response);
+      if (response && auth?.role) {
+        console.log("auth!!!!!!!!!!!!!!!!!!!!!", auth);
+        push(`${PATH_DASHBOARD.dashboard[auth.role].root}`);
+      }
+    } catch (err) {
+      console.log("catch err", err);
+    }
+  };
+  // Call autoLogin when the component mounts
+  useEffect(() => {
+    autoLogin();
+  }, []);
 
+  useEffect(() => {
+    !auth?.accessToken
+      ? autoLogin()
+      : push(PATH_DASHBOARD.dashboard[auth?.role].root);
+  }, [refresh, auth, push]);
   return (
     <Page title="Register">
       <RootStyle>

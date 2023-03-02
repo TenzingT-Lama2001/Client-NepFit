@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useState } from "react";
 
-export type Roles = "Admin" | "Member" | "Trainer" | "Staff";
+export type Roles = "admin" | "member" | "trainer" | "staff";
 
 type SetValue = (value: any) => void;
 type AuthContextType = {

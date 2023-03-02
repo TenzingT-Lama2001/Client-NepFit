@@ -1,12 +1,36 @@
-import { useContext } from "react";
+// import { useContext } from "react";
+// import { AuthContext } from "../contexts/AuthContext";
+
+// const useAuth = () => {
+//   const context = useContext(AuthContext);
+
+//   if (!context) throw new Error("Auth context must be use inside AuthProvider");
+
+//   return context;
+// };
+
+// export default useAuth;
+
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
 
 const useAuth = () => {
-  const context = useContext(AuthContext);
+  const authContext = useContext(AuthContext);
 
-  if (!context) throw new Error("Auth context must be use inside AuthProvider");
+  if (!authContext)
+    throw new Error("Auth context must be use inside AuthProvider");
+  const { auth, setAuth } = authContext;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  return context;
+  useEffect(() => {
+    if (auth) {
+      setIsAuthenticated(true);
+    }
+    setIsInitialized(true);
+  }, [auth]);
+
+  return { isAuthenticated, isInitialized, auth, setAuth };
 };
 
 export default useAuth;

@@ -23,7 +23,7 @@ export default function ResetPasswordForm() {
 
   const methods = useForm<FormValuesProps>({
     resolver: yupResolver(ResetPasswordSchema),
-    defaultValues: { email: "demo@nepfit.com" },
+    defaultValues: { email: "me@mydomain.com" },
   });
 
   const {

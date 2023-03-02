@@ -12,6 +12,10 @@ import {
   Popover,
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
+import { logout } from "../../../api/auth";
+import { useMutation } from "@tanstack/react-query";
+import { PATH_AUTH } from "../../../routes/path";
+import useAuth from "../../../hooks/useAuth";
 
 const MENU_OPTIONS = [
   {
@@ -24,11 +28,34 @@ const MENU_OPTIONS = [
   },
 ];
 export default function AccountPopover() {
-  const router = useRouter();
+  const { push } = useRouter();
+
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState<HTMLElement | null>(null);
+  const { setAuth } = useAuth();
   const handleClose = () => {
     setOpen(null);
+  };
+  const logoutMutation = useMutation(() => logout(), {
+    onSuccess(data) {
+      enqueueSnackbar(data.message || "Logout Successful");
+      setAuth(null);
+      push(PATH_AUTH.login);
+    },
+    onError(err: any) {
+      console.log("in mutation");
+      console.log("err", err);
+      enqueueSnackbar(
+        err.response.data.message ??
+          err.message ??
+          err.data.message ??
+          "Something went wrong",
+        { variant: "error" }
+      );
+    },
+  });
+  const handleLogout = () => {
+    logoutMutation.mutate();
   };
   const handleOpen = (event: React.MouseEvent<HTMLElement>) => {
     setOpen(event.currentTarget);
@@ -85,7 +112,9 @@ export default function AccountPopover() {
           ))}
         </Stack>
         <Divider sx={{ borderStyle: "dashed" }} />
-        <MenuItem sx={{ m: 1 }}>Logout</MenuItem>
+        <MenuItem sx={{ m: 1 }} onClick={() => handleLogout()}>
+          Logout
+        </MenuItem>
       </Popover>
     </>
   );

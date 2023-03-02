@@ -4,6 +4,10 @@ function path(root: string, sublink: string) {
 
 const ROOTS_AUTH = "/auth";
 const ROOTS_DASHBOARD = "/dashboard";
+const MEMBER_DASHBOARD = path("/member", ROOTS_DASHBOARD);
+const ADMIN_DASHBOARD = path("/admin", ROOTS_DASHBOARD);
+const STAFF_DASHBOARD = path("/staff", ROOTS_DASHBOARD);
+const TRAINER_DASHBOARD = path("/trainer", ROOTS_DASHBOARD);
 const ROOTS_SHOP = "/shop";
 
 export const PATH_AUTH = {
@@ -35,6 +39,7 @@ export const PATH_DASHBOARD = {
   // },
   dashboard: {
     member: {
+      root: MEMBER_DASHBOARD,
       schedule: path(ROOTS_DASHBOARD, "/member/schedule"),
       membership: path(ROOTS_DASHBOARD, "/member/membership"),
       trainer: path(ROOTS_DASHBOARD, "/member/trainer"),
@@ -43,12 +48,14 @@ export const PATH_DASHBOARD = {
     },
 
     trainer: {
+      root: TRAINER_DASHBOARD,
       members: path(ROOTS_DASHBOARD, "/trainer/members"),
       workout: path(ROOTS_DASHBOARD, "/trainer/workout"),
       report: path(ROOTS_DASHBOARD, "/trainer/report"),
     },
 
     staff: {
+      root: STAFF_DASHBOARD,
       products: path(ROOTS_DASHBOARD, "/staff/products"),
       members: path(ROOTS_DASHBOARD, "/staff/members"),
       notification: path(ROOTS_DASHBOARD, "/staff/notification"),
@@ -56,6 +63,7 @@ export const PATH_DASHBOARD = {
       orders: path(ROOTS_DASHBOARD, "/staff/orders"),
     },
     admin: {
+      root: ADMIN_DASHBOARD,
       products: path(ROOTS_DASHBOARD, "/admin/products"),
       members: path(ROOTS_DASHBOARD, "/admin/members"),
       trainers: path(ROOTS_DASHBOARD, "/admin/members"),

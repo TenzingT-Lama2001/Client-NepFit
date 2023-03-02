@@ -37,3 +37,9 @@ export const register = async ({
 
   return data;
 };
+
+export const logout = async () => {
+  const { data } = await axios.post(`/api/member/auth/logout`);
+
+  return data;
+};

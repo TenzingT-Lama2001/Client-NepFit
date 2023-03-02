@@ -34,7 +34,6 @@ export default function NavbarVertical({
   const { pathname } = useRouter();
   const isDesktop = useResponsive("up", "lg");
   const { auth } = useAuth();
-  const role = "Admin";
 
   const {
     isCollapse,
@@ -51,17 +50,17 @@ export default function NavbarVertical({
     }
   }, [pathname]);
   let navList;
-  switch (role) {
-    case "Admin":
+  switch (auth?.role) {
+    case "admin":
       navList = navConfig.adminNavConfig;
       break;
-    case "Member":
+    case "member":
       navList = navConfig.memberNavConfig;
       break;
-    case "Trainer":
+    case "trainer":
       navList = navConfig.trainerNavConfig;
       break;
-    case "Staff":
+    case "staff":
       navList = navConfig.staffNavConfig;
       break;
     default:
@@ -94,7 +93,7 @@ export default function NavbarVertical({
             alignItems="center"
             justifyContent="space-between"
           >
-            {/* <Logo /> */}
+            <Logo />
           </Stack>
         )}
         <NavbarAccount />

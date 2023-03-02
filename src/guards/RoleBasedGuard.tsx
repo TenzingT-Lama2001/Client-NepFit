@@ -16,7 +16,8 @@ export default function RoleBasedGuard({
   const { auth } = useAuth();
 
   const currentRole = auth?.role;
-
+  console.log("In guard currentrole", currentRole);
+  console.log("Passed role", roles);
   if (typeof roles !== "undefined" && !roles.includes(currentRole as Roles)) {
     return hasContent ? (
       <Container sx={{ textAlign: "center" }}>
