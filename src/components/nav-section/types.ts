@@ -15,10 +15,11 @@ export type NavItemProps = {
   item: NavListProps;
   open: boolean;
   active: boolean;
+  depth: number;
 };
 
 export interface NavSectionProps extends BoxProps {
-  navConfig: {
+  nav: {
     items: NavListProps[];
   }[];
 }

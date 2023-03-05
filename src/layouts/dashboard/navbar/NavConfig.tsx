@@ -77,8 +77,12 @@ const adminNavConfig = [
       },
       {
         title: "Members",
-        path: PATH_DASHBOARD.dashboard.admin.members,
+        path: PATH_DASHBOARD.dashboard.admin.members.root,
         icon: <BadgeIcon />,
+        children: [
+          { title: "list", path: PATH_DASHBOARD.dashboard.admin.members.list },
+          { title: "create", path: PATH_DASHBOARD.dashboard.admin.members.new },
+        ],
       },
       {
         title: "Trainers",

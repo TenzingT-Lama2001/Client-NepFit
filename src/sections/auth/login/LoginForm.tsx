@@ -18,6 +18,7 @@ import { login } from "../../../api/auth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { useSnackbar } from "notistack";
 import useAuth from "../../../hooks/useAuth";
+import LoadingScreen from "../../../components/LoadingScreen";
 type FormValuesProps = {
   email: string;
   password: string;
@@ -28,7 +29,7 @@ type FormValuesProps = {
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const isMountedRef = useIsMountedRef();
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const { push } = useRouter();
   const LoginSchema = Yup.object().shape({
@@ -67,7 +68,11 @@ export default function LoginForm() {
       });
       enqueueSnackbar(data.message || "Login Successful");
       reset();
-      push(PATH_DASHBOARD.dashboard.member.root);
+      if (auth?.role) {
+        push(PATH_DASHBOARD.dashboard[auth?.role].root);
+      } else {
+        return <LoadingScreen />;
+      }
     },
     onError(err: any) {
       console.log("in mutation");

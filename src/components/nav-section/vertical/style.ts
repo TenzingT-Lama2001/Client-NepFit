@@ -18,11 +18,12 @@ import cssStyles from "../../../utils/cssStyles";
 
 export interface ListItemStyleProps extends ListItemButtonProps {
   active: boolean;
+  depth: number;
 }
 
 export const ListItemStyle = styled(ListItemButton, {
   shouldForwardProp: (prop) => prop !== "active",
-})<ListItemStyleProps>(({ active, theme }) => ({
+})<ListItemStyleProps>(({ active, depth, theme }) => ({
   position: "relative",
   textTransform: "capitalize",
   paddingLeft: theme.spacing(2),
@@ -40,9 +41,19 @@ export const ListItemStyle = styled(ListItemButton, {
     ),
   }),
   // Active item
-  ...(active && {
-    color: theme.palette.text.primary,
-    backgroundColor: "transparent",
+  ...(active &&
+    depth !== 1 && {
+      color: theme.palette.text.primary,
+      backgroundColor: "transparent",
+    }),
+  // Sub item
+  ...(depth && {
+    ...(depth > 1 && {
+      height: NAVBAR.DASHBOARD_ITEM_SUB_HEIGHT,
+    }),
+    ...(depth > 2 && {
+      paddingLeft: theme.spacing(depth),
+    }),
   }),
 }));
 

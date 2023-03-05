@@ -99,11 +99,7 @@ export default function NavbarVertical({
         <NavbarAccount />
       </Stack>
 
-      {navList.map((group) =>
-        group.items.map((list) => (
-          <NavSectionVertical key={list.title} data={list} />
-        ))
-      )}
+      <NavSectionVertical nav={navList} />
 
       <Box sx={{ flexGrow: 1 }} />
     </Scrollbar>

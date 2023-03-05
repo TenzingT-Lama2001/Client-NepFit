@@ -1,36 +1,26 @@
 import { NavListProps, NavSectionProps } from "../types";
-import { Box, List, ListItem, Link } from "@mui/material";
+import { Box, List, ListItem, Link, Collapse } from "@mui/material";
 import { getActive } from "..";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import NavItem from "./NavItem";
+import NavList from "./NavList";
 
-type NavListRootProps = {
-  data: NavListProps;
-};
-export default function NavSectionVertical({
-  data,
-  ...other
-}: NavListRootProps) {
-  const { pathname, asPath, push } = useRouter();
-
-  const active = getActive(data.path, pathname, asPath);
-  console.log({ active });
-  const [open, setOpen] = useState(active);
-
-  const handleClickItem = () => {
-    push(data.path);
-
-    setOpen(!open);
-  };
+export default function NavSectionVertical({ nav, ...other }: NavSectionProps) {
   return (
-    <>
-      <NavItem
-        item={data}
-        open={open}
-        active={active}
-        onClick={handleClickItem}
-      />
-    </>
+    <Box {...other}>
+      {nav.map((group) => (
+        <List key={group.items[0].title} disablePadding sx={{ px: 2 }}>
+          {group.items.map((list) => (
+            <NavList
+              key={list.title + list.path}
+              data={list}
+              depth={1}
+              hasChildren={!!list.children}
+            />
+          ))}
+        </List>
+      ))}
+    </Box>
   );
 }

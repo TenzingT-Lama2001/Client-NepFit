@@ -7,7 +7,11 @@ export const login = async ({
   email: string;
   password: string;
 }) => {
-  const { data } = await axios.post(`/api/member/auth/login`, {
+  // const { data } = await axios.post(`/api/member/auth/login`, {
+  //   email,
+  //   password,
+  // });
+  const { data } = await axios.post(`/api/common/auth/login`, {
     email,
     password,
   });
