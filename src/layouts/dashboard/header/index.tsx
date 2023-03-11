@@ -5,6 +5,7 @@ import cssStyles from "../../../utils/cssStyles";
 import { HEADER, NAVBAR } from "../../../config";
 import Iconify from "../../../components/Iconify";
 import AccountPopover from "./AccountPopover";
+import useOffSetTop from "../../../hooks/useOffSetTop";
 
 type Props = {
   onOpenSidebar: VoidFunction;
@@ -13,21 +14,28 @@ type Props = {
 };
 type RootStyleProps = {
   verticalLayout: boolean;
+  isOffset: boolean;
 };
 
 const RootStyle = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== "verticalLayout",
-})<RootStyleProps>(({ verticalLayout, theme }) => ({
+  shouldForwardProp: (prop) => prop !== "verticalLayout" && prop !== "isOffset",
+})<RootStyleProps>(({ verticalLayout, isOffset, theme }) => ({
   ...cssStyles(theme).bgBlur(),
   boxShadow: "none",
+
   height: HEADER.MOBILE_HEIGHT,
   zIndex: theme.zIndex.appBar + 1,
   transition: theme.transitions.create(["width", "height"], {
     duration: theme.transitions.duration.shorter,
   }),
+
   [theme.breakpoints.up("lg")]: {
     height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
     width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH + 1}px)`,
+
+    ...(isOffset && {
+      height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
+    }),
     ...(verticalLayout && {
       width: "100%",
       height: HEADER.DASHBOARD_DESKTOP_OFFSET_HEIGHT,
@@ -41,9 +49,10 @@ export default function DashboardHeader({
   verticalLayout = false,
 }: Props) {
   const isDesktop = useResponsive("up", "lg");
-
+  const isOffset =
+    useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
   return (
-    <RootStyle verticalLayout={verticalLayout}>
+    <RootStyle verticalLayout={verticalLayout} isOffset={isOffset}>
       <Toolbar
         sx={{
           minHeight: "100% !important",

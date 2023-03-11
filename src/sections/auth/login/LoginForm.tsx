@@ -61,6 +61,7 @@ export default function LoginForm() {
     onSuccess(data) {
       console.log("login data", data);
       setAuth({
+        id: data.user._id,
         name: data.user.first_name,
         email: data.user.email,
         role: data.user.role,

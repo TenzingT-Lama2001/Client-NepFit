@@ -82,6 +82,10 @@ const adminNavConfig = [
         children: [
           { title: "list", path: PATH_DASHBOARD.dashboard.admin.members.list },
           { title: "create", path: PATH_DASHBOARD.dashboard.admin.members.new },
+          // {
+          //   title: "edit",
+          //   path: PATH_DASHBOARD.dashboard.admin.members.edit,
+          // },
         ],
       },
       {

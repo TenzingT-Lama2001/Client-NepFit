@@ -29,7 +29,6 @@ export default function ThemeProvider({ children }: Props) {
       shape: {
         borderRadius: 8,
       },
-
       shadows: isLight ? shadows.light : shadows.dark,
       customShadows: isLight ? customShadows.light : customShadows.dark,
     }),

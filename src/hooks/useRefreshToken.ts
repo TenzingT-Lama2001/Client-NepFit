@@ -6,7 +6,7 @@ export const useRefreshToken = () => {
   const { auth, setAuth } = useAuth();
 
   const refresh = async () => {
-    const response = await axios.get("/api/member/auth/refresh");
+    const response = await axios.get("/api/common/auth/refresh");
 
     console.log("response data role", response.data.role);
     console.log("response data accessToken", response.data.accessToken);

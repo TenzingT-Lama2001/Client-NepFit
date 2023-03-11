@@ -5,6 +5,7 @@ export type Roles = "admin" | "member" | "trainer" | "staff";
 type SetValue = (value: any) => void;
 type AuthContextType = {
   auth: {
+    id: string;
     name: string;
     email: string;
     role: Roles;

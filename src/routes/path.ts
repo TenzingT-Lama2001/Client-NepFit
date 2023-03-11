@@ -59,11 +59,13 @@ export const PATH_DASHBOARD = {
       products: path(ROOTS_DASHBOARD, "/admin/products"),
       members: {
         root: path(ROOTS_DASHBOARD, "/admin/members"),
-        new: path(ROOTS_DASHBOARD, "/admin/member/new"),
+        new: path(ROOTS_DASHBOARD, "/admin/members/new"),
         list: path(ROOTS_DASHBOARD, "/admin/members/list"),
+        edit: (memberId: string) =>
+          path(ROOTS_DASHBOARD, `/admin/members/${memberId}/edit`),
       },
-      trainers: path(ROOTS_DASHBOARD, "/admin/members"),
-      staffs: path(ROOTS_DASHBOARD, "/admin/members"),
+      trainers: path(ROOTS_DASHBOARD, "/admin/trainers"),
+      staffs: path(ROOTS_DASHBOARD, "/admin/staffs"),
       orders: path(ROOTS_DASHBOARD, "/admin/orders"),
     },
   },
