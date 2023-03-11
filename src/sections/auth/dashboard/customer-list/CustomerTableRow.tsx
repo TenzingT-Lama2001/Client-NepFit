@@ -10,6 +10,7 @@ import {
   MenuItem,
   Link,
   Button,
+  Avatar,
 } from "@mui/material";
 // utils
 
@@ -37,10 +38,9 @@ export default function ProductTableRow({
 }: Props) {
   const theme = useTheme();
   const { pathname, push } = useRouter();
-  const { name, createdAt, email, phone, id } = row;
-  console.log({ row });
+  const { firstName, lastName, email, avatarUrl } = row;
+  console.log("row!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", row);
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
-  const lowisy_s3_url = "https://lowisy-dev.s3.eu-central-1.amazonaws.com/";
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpenMenuActions(event.currentTarget);
@@ -52,31 +52,12 @@ export default function ProductTableRow({
 
   return (
     <TableRow hover selected={selected}>
-      {/* <Link
-        component="button"
-        variant="body2"
-        onClick={() => {
-          push(PATH_DASHBOARD.menu.products.view(paramCase(id)));
-        }}
-      > */}
       <TableCell padding="checkbox">
         <Checkbox checked={selected} onClick={onSelectRow} />
       </TableCell>
 
       <TableCell sx={{ display: "flex", alignItems: "center" }}>
-        {/* <Link
-          component="button"
-          variant="subtitle2"
-          onClick={() => {
-            push(PATH_DASHBOARD.menu.products.view(paramCase(id)));
-          }}
-        > */}
-        {/* <Image
-          disabledEffect
-          alt={name}
-          src={productImages.length > 0 ? lowisy_s3_url + productImages[0]?.images : ''}
-          sx={{ borderRadius: 1.5, width: 48, height: 48, mr: 2 }}
-        /> */}
+        <Avatar alt={firstName} src={avatarUrl?.secure_url} sx={{ mr: 2 }} />
         <Link
           component="button"
           variant="caption"
@@ -85,12 +66,12 @@ export default function ProductTableRow({
           }}
         >
           <Typography variant="subtitle2" noWrap>
-            {name}
+            {firstName}
           </Typography>
         </Link>
       </TableCell>
 
-      <TableCell>{createdAt}</TableCell>
+      <TableCell>{lastName}</TableCell>
 
       {/* <TableCell align="center">
         <Label
@@ -107,7 +88,6 @@ export default function ProductTableRow({
       </TableCell> */}
 
       <TableCell align="left">{email}</TableCell>
-      <TableCell align="left">{phone}</TableCell>
 
       <TableCell align="right">
         <TableMoreMenu

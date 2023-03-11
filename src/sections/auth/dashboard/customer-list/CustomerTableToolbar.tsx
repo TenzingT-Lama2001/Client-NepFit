@@ -31,7 +31,7 @@ export default function ProductTableToolbar({
       <TextField
         value={filterName}
         onChange={(event) => onFilterName(event.target.value)}
-        placeholder={"search_customer" + "..."}
+        placeholder={"Search Member" + "..."}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
