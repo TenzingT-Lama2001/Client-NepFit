@@ -30,7 +30,7 @@ export const register = async ({
   email: string;
   password: string;
 }) => {
-  const { data } = await axios.post(`/api/member/auth/register`, {
+  const { data } = await axios.post(`/api/common/auth/register`, {
     firstName,
     lastName,
     email,
@@ -43,7 +43,7 @@ export const register = async ({
 };
 
 export const logout = async () => {
-  const { data } = await axios.post(`/api/member/auth/logout`);
+  const { data } = await axios.post(`/api/common/auth/logout`);
 
   return data;
 };
