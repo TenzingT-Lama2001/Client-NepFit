@@ -13,9 +13,10 @@ import {
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
 import { logout } from "../../../api/auth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { PATH_AUTH } from "../../../routes/path";
 import useAuth from "../../../hooks/useAuth";
+import { getMember } from "../../../api/member";
 
 const MENU_OPTIONS = [
   {
@@ -32,10 +33,17 @@ export default function AccountPopover() {
 
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState<HTMLElement | null>(null);
-  const { setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
+
   const handleClose = () => {
     setOpen(null);
   };
+
+  const { data: memberData } = useQuery(
+    ["get_member_details"],
+    () => getMember(auth?.id as string),
+    {}
+  );
   const logoutMutation = useMutation(() => logout(), {
     onSuccess(data) {
       enqueueSnackbar(data.message || "Logout Successful");
@@ -66,10 +74,8 @@ export default function AccountPopover() {
         onClick={handleOpen}
         sx={{ bgcolor: deepOrange[500] }}
         alt="Remy Sharp"
-        src="/broken-image.jpg"
-      >
-        T
-      </Avatar>
+        src={memberData?.avatarUrl?.secure_url}
+      />
 
       <Popover
         open={Boolean(open)}

@@ -8,20 +8,29 @@ import {
   Typography,
 } from "@mui/material";
 import { deepOrange } from "@mui/material/colors";
+import { useQuery } from "@tanstack/react-query";
 import NextLink from "next/link";
+import { getMember } from "../../../api/member";
+import useAuth from "../../../hooks/useAuth";
 import { PATH_DASHBOARD } from "../../../routes/path";
 const RootStyle = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: theme.palette.grey[500_12],
+  backgroundColor: theme.palette.grey[500_8],
   transition: theme.transitions.create("opacity", {
     duration: theme.transitions.duration.shorter,
   }),
 }));
 
 export default function NavbarAccount() {
+  const { auth, setAuth } = useAuth();
+  const { data: memberData } = useQuery(
+    ["get_member_details"],
+    () => getMember(auth?.id as string),
+    {}
+  );
   return (
     <NextLink href={PATH_DASHBOARD.root} passHref>
       <Link underline="none" color="inherit">
@@ -29,10 +38,8 @@ export default function NavbarAccount() {
           <Avatar
             sx={{ bgcolor: deepOrange[500] }}
             alt="Remy Sharp"
-            src="/broken-image.jpg"
-          >
-            T
-          </Avatar>
+            src={memberData?.avatarUrl?.secure_url}
+          />
           <Box
             sx={{
               ml: 2,
@@ -43,7 +50,7 @@ export default function NavbarAccount() {
             }}
           >
             <Typography variant="subtitle2" noWrap>
-              Tenzing Lama
+              {memberData.firstName} {memberData.lastName}
             </Typography>
           </Box>
         </RootStyle>
