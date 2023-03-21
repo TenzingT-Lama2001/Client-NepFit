@@ -122,12 +122,12 @@ export default function EcommerceProductList() {
       initialData: { results: [], totalMembers: 0 },
       onSuccess(data) {
         console.log("page", page);
-        if (page === 1) {
+        if (page === 0) {
           setTotalMembers(data.length);
           console.log("total members", totalMembers);
         }
-        console.log(data);
-        console.log(data.length);
+        console.log("member data", data);
+        console.log("memnber length", data.length);
         console.log("total members", totalMembers);
       },
     }
@@ -150,7 +150,7 @@ export default function EcommerceProductList() {
 
   const handleFilterName = (filterName: string) => {
     setFilterName(filterName);
-    setPage(1);
+    setPage(0);
   };
 
   const handleDeleteRow = (id: string) => {
@@ -170,7 +170,7 @@ export default function EcommerceProductList() {
 
   const isNotFound =
     (!totalMembers && !!filterName) || (!isLoading && !totalMembers);
-  console.log("isNotFound", isNotFound);
+
   return (
     <Page title="Member List">
       <Container maxWidth="lg">
@@ -263,12 +263,12 @@ export default function EcommerceProductList() {
                     (row: any, index: any) =>
                       row ? (
                         <CustomerTableRow
-                          key={row.id}
+                          key={row._id}
                           row={row}
-                          selected={selected.includes(row.id)}
-                          onSelectRow={() => onSelectRow(row.id)}
-                          onDeleteRow={() => handleDeleteRow(row.id)}
-                          onEditRow={() => handleEditRow(row.id)}
+                          selected={selected.includes(row._id)}
+                          onSelectRow={() => onSelectRow(row._id)}
+                          onDeleteRow={() => handleDeleteRow(row._id)}
+                          onEditRow={() => handleEditRow(row._id)}
                         />
                       ) : (
                         !isNotFound && (
