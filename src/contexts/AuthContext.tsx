@@ -12,6 +12,22 @@ type AuthContextType = {
     accessToken: string;
   } | null;
   setAuth: SetValue;
+  currentPlan: {
+    currentProgram: string | null;
+    currentPackage: string | null;
+  } | null;
+  setCurrentPlan: SetValue;
+  stripeDetails: {
+    stripeCustomerId: string | null;
+    stripeProductId: string | null;
+    stripePackageId: string | null;
+    stripePackagePriceId: string | null;
+    stripeProductPriceId: string | null;
+    subscriptionId: string | null;
+    clientSecret: string | null;
+    planId: string | null;
+  } | null;
+  setStripeDetails: SetValue;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -21,8 +37,19 @@ type AuthProviderProps = {
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [auth, setAuth] = useState(null);
+  const [currentPlan, setCurrentPlan] = useState(null);
+  const [stripeDetails, setStripeDetails] = useState(null);
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider
+      value={{
+        auth,
+        setAuth,
+        currentPlan,
+        setCurrentPlan,
+        stripeDetails,
+        setStripeDetails,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

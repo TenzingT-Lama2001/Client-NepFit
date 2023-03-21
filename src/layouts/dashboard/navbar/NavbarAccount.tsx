@@ -50,7 +50,7 @@ export default function NavbarAccount() {
             }}
           >
             <Typography variant="subtitle2" noWrap>
-              {memberData.firstName} {memberData.lastName}
+              {/* {memberData.firstName} {memberData.lastName} */}Random
             </Typography>
           </Box>
         </RootStyle>

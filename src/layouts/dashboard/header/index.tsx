@@ -18,17 +18,15 @@ type RootStyleProps = {
 };
 
 const RootStyle = styled(AppBar, {
-  shouldForwardProp: (prop) => prop !== "verticalLayout" && prop !== "isOffset",
-})<RootStyleProps>(({ verticalLayout, isOffset, theme }) => ({
+  shouldForwardProp: (prop) => prop !== "isOffset" && prop !== "verticalLayout",
+})<RootStyleProps>(({ isOffset, verticalLayout, theme }) => ({
   ...cssStyles(theme).bgBlur(),
   boxShadow: "none",
-
   height: HEADER.MOBILE_HEIGHT,
   zIndex: theme.zIndex.appBar + 1,
   transition: theme.transitions.create(["width", "height"], {
     duration: theme.transitions.duration.shorter,
   }),
-
   [theme.breakpoints.up("lg")]: {
     height: HEADER.DASHBOARD_DESKTOP_HEIGHT,
     width: `calc(100% - ${NAVBAR.DASHBOARD_WIDTH + 1}px)`,

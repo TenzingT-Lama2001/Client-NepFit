@@ -34,9 +34,12 @@ export const PATH_DASHBOARD = {
       root: MEMBER_DASHBOARD,
       schedule: path(ROOTS_DASHBOARD, "/member/schedule"),
       membership: path(ROOTS_DASHBOARD, "/member/membership"),
+      packages: path(ROOTS_DASHBOARD, "/member/packages"),
+      programs: path(ROOTS_DASHBOARD, "/member/programs"),
       trainer: path(ROOTS_DASHBOARD, "/member/trainer"),
       payment: path(ROOTS_DASHBOARD, "/member/payment"),
       report: path(ROOTS_DASHBOARD, "/member/report"),
+      checkout: path(ROOTS_DASHBOARD, "/member/packages/checkout"),
     },
 
     trainer: {
@@ -63,6 +66,14 @@ export const PATH_DASHBOARD = {
         list: path(ROOTS_DASHBOARD, "/admin/members/list"),
         edit: (memberId: string) =>
           path(ROOTS_DASHBOARD, `/admin/members/${memberId}/edit`),
+      },
+      packages: {
+        root: path(ROOTS_DASHBOARD, "/admin/packages"),
+        new: path(ROOTS_DASHBOARD, "/admin/packages/new"),
+        list: path(ROOTS_DASHBOARD, "/admin/packages/list"),
+
+        edit: (packageId: string) =>
+          path(ROOTS_DASHBOARD, `/admin/packages/${packageId}/edit`),
       },
       trainers: path(ROOTS_DASHBOARD, "/admin/trainers"),
       staffs: path(ROOTS_DASHBOARD, "/admin/staffs"),

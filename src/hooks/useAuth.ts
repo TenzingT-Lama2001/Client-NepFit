@@ -19,7 +19,14 @@ const useAuth = () => {
 
   if (!authContext)
     throw new Error("Auth context must be use inside AuthProvider");
-  const { auth, setAuth } = authContext;
+  const {
+    auth,
+    setAuth,
+    setCurrentPlan,
+    currentPlan,
+    stripeDetails,
+    setStripeDetails,
+  } = authContext;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
 
@@ -30,7 +37,16 @@ const useAuth = () => {
     setIsInitialized(true);
   }, [auth]);
 
-  return { isAuthenticated, isInitialized, auth, setAuth };
+  return {
+    isAuthenticated,
+    isInitialized,
+    auth,
+    setAuth,
+    currentPlan,
+    setCurrentPlan,
+    stripeDetails,
+    setStripeDetails,
+  };
 };
 
 export default useAuth;

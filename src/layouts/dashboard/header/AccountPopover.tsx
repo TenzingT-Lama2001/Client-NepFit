@@ -39,11 +39,11 @@ export default function AccountPopover() {
     setOpen(null);
   };
 
-  const { data: memberData } = useQuery(
-    ["get_member_details"],
-    () => getMember(auth?.id as string),
-    {}
-  );
+  // const { data: memberData } = useQuery(
+  //   ["get_member_details"],
+  //   () => getMember(auth?.id as string),
+  //   {}
+  // );
   const logoutMutation = useMutation(() => logout(), {
     onSuccess(data) {
       enqueueSnackbar(data.message || "Logout Successful");
@@ -74,7 +74,7 @@ export default function AccountPopover() {
         onClick={handleOpen}
         sx={{ bgcolor: deepOrange[500] }}
         alt="Remy Sharp"
-        src={memberData?.avatarUrl?.secure_url}
+        // src={memberData?.avatarUrl?.secure_url}
       />
 
       <Popover

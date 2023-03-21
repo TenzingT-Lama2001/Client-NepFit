@@ -29,7 +29,7 @@ type FormValuesProps = {
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const isMountedRef = useIsMountedRef();
-  const { auth, setAuth } = useAuth();
+  const { auth, setAuth, setStripeDetails } = useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const { push } = useRouter();
   const LoginSchema = Yup.object().shape({
@@ -67,6 +67,10 @@ export default function LoginForm() {
         role: data.user.role,
         accessToken: data.accessToken,
       });
+      setStripeDetails((prev: any) => ({
+        ...prev,
+        stripeCustomerId: data.user.stripeCustomerId,
+      }));
       enqueueSnackbar(data.message || "Login Successful");
       reset();
       if (auth?.role) {

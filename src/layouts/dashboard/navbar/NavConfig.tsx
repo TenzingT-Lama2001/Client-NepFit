@@ -3,6 +3,8 @@ import BadgeIcon from "@mui/icons-material/Badge";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PaidIcon from "@mui/icons-material/Paid";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
+import ClassIcon from "@mui/icons-material/Class";
 import { PATH_DASHBOARD } from "../../../routes/path";
 // const navConfig = [
 //   {
@@ -50,9 +52,19 @@ const memberNavConfig = [
         icon: <BadgeIcon />,
       },
       {
+        title: "Packages",
+        path: PATH_DASHBOARD.dashboard.member.packages,
+        icon: <ClassIcon />,
+      },
+      {
+        title: "Programs",
+        path: PATH_DASHBOARD.dashboard.member.programs,
+        icon: <FitnessCenterIcon />,
+      },
+      {
         title: "Trainer",
         path: PATH_DASHBOARD.dashboard.member.trainer,
-        icon: <FitnessCenterIcon />,
+        icon: <DirectionsBikeIcon />,
       },
       {
         title: "Payment",
@@ -76,6 +88,18 @@ const adminNavConfig = [
         icon: <CalendarMonthIcon />,
       },
       {
+        title: "Package",
+        path: PATH_DASHBOARD.dashboard.admin.packages.root,
+        icon: <ClassIcon />,
+        children: [
+          { title: "list", path: PATH_DASHBOARD.dashboard.admin.packages.list },
+          {
+            title: "create",
+            path: PATH_DASHBOARD.dashboard.admin.packages.new,
+          },
+        ],
+      },
+      {
         title: "Members",
         path: PATH_DASHBOARD.dashboard.admin.members.root,
         icon: <BadgeIcon />,
@@ -88,6 +112,7 @@ const adminNavConfig = [
           // },
         ],
       },
+
       {
         title: "Trainers",
         path: PATH_DASHBOARD.dashboard.admin.trainers,
