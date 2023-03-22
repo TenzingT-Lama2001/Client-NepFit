@@ -77,10 +77,17 @@ export default function PackagesCard({ card, index }: any) {
       }));
       const email = auth?.email;
       const planId = stripeDetails?.planId;
+
+      const programId: any = currentPlan?.currentProgramId;
       console.log({ auth });
       console.log({ email });
+      console.log({ currentPlan });
+      console.log({ programId });
       // createCustomerMutation.mutate(email);
-      createSubscriptionMutation.mutate(stripePackagePriceId);
+      createSubscriptionMutation.mutate({
+        priceId: stripePackagePriceId,
+        programId: programId,
+      });
     } catch (err) {
       console.log(err);
     }

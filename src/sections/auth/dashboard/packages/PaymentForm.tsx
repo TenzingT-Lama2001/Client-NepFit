@@ -82,15 +82,15 @@ const PaymentForm: React.FC<Props> = ({ clientSecret, subscriptionId }) => {
   //     }
   //   );
 
-  const { data, isLoading, refetch } = useQuery<any>(
-    ["get_invoice_list"],
-    () => invoiceList(),
-    {
-      onSuccess(data) {
-        console.log("invoice list", data);
-      },
-    }
-  );
+  // const { data, isLoading, refetch } = useQuery<any>(
+  //   ["get_invoice_list"],
+  //   () => invoiceList(),
+  //   {
+  //     onSuccess(data) {
+  //       console.log("invoice list", data);
+  //     },
+  //   }
+  // );
 
   return (
     <form onSubmit={handleSubmit}>

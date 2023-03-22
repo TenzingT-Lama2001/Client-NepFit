@@ -35,7 +35,7 @@ const OverlayStyle = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function ProgramCard({ program }: any) {
-  const { name, description, image } = program;
+  const { _id, name, description, image } = program;
   const { currentPlan, setCurrentPlan } = useAuth();
   console.log("current plan", currentPlan);
 
@@ -43,6 +43,7 @@ export default function ProgramCard({ program }: any) {
     setCurrentPlan((prevPlan: any) => ({
       ...prevPlan,
       currentProgram: name,
+      currentProgramId: _id,
     }));
   };
   return (

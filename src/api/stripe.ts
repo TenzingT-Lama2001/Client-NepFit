@@ -24,9 +24,10 @@ export const createPrice = async (priceDetails: any) => {
   const { data } = await axios.post(`/api/stripe/create-price`, priceDetails);
   return data;
 };
-export const createSubscription = async (priceId: any) => {
+export const createSubscription = async ({ priceId, programId }: any) => {
   const { data } = await axios.post(`/api/stripe/create-subscription`, {
     priceId,
+    programId,
   });
   return data;
 };

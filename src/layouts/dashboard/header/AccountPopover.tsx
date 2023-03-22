@@ -33,7 +33,7 @@ export default function AccountPopover() {
 
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState<HTMLElement | null>(null);
-  const { auth, setAuth } = useAuth();
+  const { auth, setAuth, setCurrentPlan, setStripeDetails } = useAuth();
 
   const handleClose = () => {
     setOpen(null);
@@ -48,6 +48,9 @@ export default function AccountPopover() {
     onSuccess(data) {
       enqueueSnackbar(data.message || "Logout Successful");
       setAuth(null);
+      setCurrentPlan(null);
+      setStripeDetails(null);
+
       push(PATH_AUTH.login);
     },
     onError(err: any) {

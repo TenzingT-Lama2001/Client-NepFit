@@ -13,6 +13,8 @@ type AuthContextType = {
   } | null;
   setAuth: SetValue;
   currentPlan: {
+    currentProgramId: string | null;
+    currentPackageId: string | null;
     currentProgram: string | null;
     currentPackage: string | null;
   } | null;
