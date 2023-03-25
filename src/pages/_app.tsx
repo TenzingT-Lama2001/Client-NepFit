@@ -10,6 +10,9 @@ import {
   SettingsValueProps,
 } from "../contexts/SettingsContext";
 import ThemeProvider from "../theme";
+// @mui
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { LocalizationProvider } from "@mui/x-date-pickers";
 import cookie from "cookie";
 import { getSettings } from "../utils/getSettings";
 import ToggleMode from "../components/ToggleMode";
@@ -35,16 +38,18 @@ export default function MyApp(props: MyAppProps) {
       </Head>
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
-          <CollapseDrawerProvider>
-            <SettingsProvider defaultSettings={settings}>
-              <ThemeProvider>
-                <NotistackProvider>
-                  <ProgressBar />
-                  {getLayout(<Component {...pageProps} />)}
-                </NotistackProvider>
-              </ThemeProvider>
-            </SettingsProvider>
-          </CollapseDrawerProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <CollapseDrawerProvider>
+              <SettingsProvider defaultSettings={settings}>
+                <ThemeProvider>
+                  <NotistackProvider>
+                    <ProgressBar />
+                    {getLayout(<Component {...pageProps} />)}
+                  </NotistackProvider>
+                </ThemeProvider>
+              </SettingsProvider>
+            </CollapseDrawerProvider>
+          </LocalizationProvider>
         </AuthProvider>
       </QueryClientProvider>
     </>

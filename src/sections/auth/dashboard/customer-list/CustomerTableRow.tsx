@@ -38,7 +38,7 @@ export default function ProductTableRow({
 }: Props) {
   const theme = useTheme();
   const { pathname, push } = useRouter();
-  const { firstName, lastName, email, avatarUrl } = row;
+  const { firstName, lastName, email, avatarUrl, status } = row;
   console.log("row!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", row);
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
 
@@ -89,6 +89,7 @@ export default function ProductTableRow({
 
       <TableCell align="left">{email}</TableCell>
 
+      <TableCell align="left">{status ? status : "Inactive"}</TableCell>
       <TableCell align="right">
         <TableMoreMenu
           open={openMenu}

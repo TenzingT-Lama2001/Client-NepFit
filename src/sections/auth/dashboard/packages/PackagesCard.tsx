@@ -77,7 +77,7 @@ export default function PackagesCard({ card, index }: any) {
       }));
       const email = auth?.email;
       const planId = stripeDetails?.planId;
-
+      const trainerId: any = currentPlan?.currentTrainerId;
       const programId: any = currentPlan?.currentProgramId;
       console.log({ auth });
       console.log({ email });
@@ -87,6 +87,7 @@ export default function PackagesCard({ card, index }: any) {
       createSubscriptionMutation.mutate({
         priceId: stripePackagePriceId,
         programId: programId,
+        trainerId: trainerId,
       });
     } catch (err) {
       console.log(err);
@@ -165,7 +166,7 @@ export default function PackagesCard({ card, index }: any) {
         {description}
       </Typography>
 
-      {currentPlan?.currentProgram ? (
+      {currentPlan?.currentProgram && currentPlan?.currentTrainerId ? (
         <Button
           fullWidth
           size="large"
@@ -176,7 +177,7 @@ export default function PackagesCard({ card, index }: any) {
         </Button>
       ) : (
         <Button fullWidth size="large" variant="contained" disabled>
-          Choose a program
+          Choose a program/trainer
         </Button>
       )}
     </RootStyle>

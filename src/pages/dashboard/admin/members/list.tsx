@@ -46,6 +46,7 @@ const TABLE_HEAD = [
   { id: "firstname", label: "firstname", align: "left" },
   { id: "lastname", label: "lastname", align: "left" },
   { id: "email", label: "email", align: "left" },
+  { id: "status", label: "status", align: "left" },
   { id: "" },
 ];
 const STATUS_OPTIONS = ["all", "active", "banned"];
