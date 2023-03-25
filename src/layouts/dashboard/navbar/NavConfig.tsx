@@ -62,8 +62,8 @@ const memberNavConfig = [
         icon: <FitnessCenterIcon />,
       },
       {
-        title: "Trainer",
-        path: PATH_DASHBOARD.dashboard.member.trainer,
+        title: "Trainers",
+        path: PATH_DASHBOARD.dashboard.member.trainers,
         icon: <DirectionsBikeIcon />,
       },
       {
@@ -106,10 +106,6 @@ const adminNavConfig = [
         children: [
           { title: "list", path: PATH_DASHBOARD.dashboard.admin.members.list },
           { title: "create", path: PATH_DASHBOARD.dashboard.admin.members.new },
-          // {
-          //   title: "edit",
-          //   path: PATH_DASHBOARD.dashboard.admin.members.edit,
-          // },
         ],
       },
 
@@ -117,11 +113,22 @@ const adminNavConfig = [
         title: "Trainers",
         path: PATH_DASHBOARD.dashboard.admin.trainers,
         icon: <FitnessCenterIcon />,
+        children: [
+          { title: "list", path: PATH_DASHBOARD.dashboard.admin.trainers.list },
+          {
+            title: "create",
+            path: PATH_DASHBOARD.dashboard.admin.trainers.new,
+          },
+        ],
       },
       {
         title: "Staffs",
         path: PATH_DASHBOARD.dashboard.admin.staffs,
         icon: <PaidIcon />,
+        children: [
+          { title: "list", path: PATH_DASHBOARD.dashboard.admin.staffs.list },
+          { title: "create", path: PATH_DASHBOARD.dashboard.admin.staffs.new },
+        ],
       },
       {
         title: "Orders",

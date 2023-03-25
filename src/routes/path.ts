@@ -36,7 +36,7 @@ export const PATH_DASHBOARD = {
       membership: path(ROOTS_DASHBOARD, "/member/membership"),
       packages: path(ROOTS_DASHBOARD, "/member/packages"),
       programs: path(ROOTS_DASHBOARD, "/member/programs"),
-      trainer: path(ROOTS_DASHBOARD, "/member/trainer"),
+      trainers: path(ROOTS_DASHBOARD, "/member/trainers"),
       payment: path(ROOTS_DASHBOARD, "/member/payment"),
       report: path(ROOTS_DASHBOARD, "/member/report"),
       checkout: path(ROOTS_DASHBOARD, "/member/packages/checkout"),
@@ -75,8 +75,20 @@ export const PATH_DASHBOARD = {
         edit: (packageId: string) =>
           path(ROOTS_DASHBOARD, `/admin/packages/${packageId}/edit`),
       },
-      trainers: path(ROOTS_DASHBOARD, "/admin/trainers"),
-      staffs: path(ROOTS_DASHBOARD, "/admin/staffs"),
+      trainers: {
+        root: path(ROOTS_DASHBOARD, "/admin/trainers"),
+        new: path(ROOTS_DASHBOARD, "/admin/trainers/new"),
+        list: path(ROOTS_DASHBOARD, "/admin/trainers/list"),
+        edit: (trainerId: string) =>
+          path(ROOTS_DASHBOARD, `/admin/trainers/${trainerId}/edit`),
+      },
+      staffs: {
+        root: path(ROOTS_DASHBOARD, "/admin/staffs"),
+        new: path(ROOTS_DASHBOARD, "/admin/staffs/new"),
+        list: path(ROOTS_DASHBOARD, "/admin/staffs/list"),
+        edit: (staffId: string) =>
+          path(ROOTS_DASHBOARD, `/admin/staffs/${staffId}/edit`),
+      },
       orders: path(ROOTS_DASHBOARD, "/admin/orders"),
     },
   },

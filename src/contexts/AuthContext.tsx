@@ -17,6 +17,7 @@ type AuthContextType = {
     currentPackageId: string | null;
     currentProgram: string | null;
     currentPackage: string | null;
+    currentTrainerId: string | null;
   } | null;
   setCurrentPlan: SetValue;
   stripeDetails: {
