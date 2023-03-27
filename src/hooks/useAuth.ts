@@ -26,6 +26,8 @@ const useAuth = () => {
     currentPlan,
     stripeDetails,
     setStripeDetails,
+    calendarState,
+    setCalendarState,
   } = authContext;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -46,6 +48,8 @@ const useAuth = () => {
     setCurrentPlan,
     stripeDetails,
     setStripeDetails,
+    calendarState,
+    setCalendarState,
   };
 };
 

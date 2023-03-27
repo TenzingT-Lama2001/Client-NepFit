@@ -1,3 +1,4 @@
+import { EventInput } from "@fullcalendar/core";
 import { createContext, ReactNode, useState } from "react";
 
 export type Roles = "admin" | "member" | "trainer" | "staff";
@@ -31,6 +32,15 @@ type AuthContextType = {
     planId: string | null;
   } | null;
   setStripeDetails: SetValue;
+  calendarState: {
+    isLoading: boolean;
+    error: Error | string | null;
+    events: any[];
+    isOpenModal: boolean;
+    selectedEventId: null | string;
+    selectedRange: null | { start: Date; end: Date };
+  };
+  setCalendarState: SetValue;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -41,6 +51,14 @@ type AuthProviderProps = {
 function AuthProvider({ children }: AuthProviderProps) {
   const [auth, setAuth] = useState(null);
   const [currentPlan, setCurrentPlan] = useState(null);
+  const [calendarState, setCalendarState] = useState({
+    isLoading: false,
+    error: null,
+    events: [],
+    isOpenModal: false,
+    selectedEventId: null,
+    selectedRange: null,
+  });
   const [stripeDetails, setStripeDetails] = useState(null);
   return (
     <AuthContext.Provider
@@ -51,6 +69,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         setCurrentPlan,
         stripeDetails,
         setStripeDetails,
+        calendarState,
+        setCalendarState,
       }}
     >
       {children}

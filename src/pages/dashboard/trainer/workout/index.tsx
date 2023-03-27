@@ -29,6 +29,11 @@ import {
   CalendarForm,
   CalendarStyle,
 } from "../../../../sections/auth/dashboard/calendar";
+import useAuth from "../../../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+// import { getWorkouts } from "../../../../api/workout";
+import { EventClickArg, EventDropArg } from "@fullcalendar/core";
+import { getWorkoutByTrainerId, getWorkouts } from "../../../../api/workout";
 // redux
 
 // sections
@@ -44,12 +49,48 @@ Workout.getLayout = function getLayout(page: React.ReactElement) {
 export default function Workout() {
   const isDesktop = useResponsive("up", "sm");
   const calendarRef = useRef<FullCalendar>(null);
-
+  const { calendarState, setCalendarState, auth } = useAuth();
   const [date, setDate] = useState(new Date());
 
   const [view, setView] = useState<CalendarView>(
     isDesktop ? "dayGridMonth" : "listWeek"
   );
+  const trainerId = auth?.id;
+  console.log({ trainerId });
+  // const {
+  //   data: { workouts },
+  //   isLoading,
+  //   refetch,
+  // } = useQuery<any>(["get_workouts"], () => getWorkouts(), {
+  //   initialData: { workouts: [] },
+  //   onSuccess(data) {
+  //     console.log("useQuery get workouts data ", data);
+  //     setCalendarState((prevState: any) => ({
+  //       ...prevState,
+  //       isLoading: false,
+  //       events: data.workouts,
+  //     }));
+  //     console.log({ calendarState });
+  //   },
+  // });
+  const { data: workouts } = useQuery<any>(
+    ["get_workouts_trainerId"],
+    () => getWorkoutByTrainerId(trainerId as string),
+    {
+      initialData: { workouts: [] },
+      onSuccess: (data) => {
+        console.log("useQuery get workouts data ", data);
+        setCalendarState((prevState: any) => ({
+          ...prevState,
+          isLoading: false,
+          events: data.workouts,
+        }));
+        console.log({ calendarState });
+      },
+    }
+  );
+
+  console.log({ calendarState });
 
   useEffect(() => {
     const calendarEl = calendarRef.current;
@@ -60,15 +101,30 @@ export default function Workout() {
       setView(newView);
     }
   }, [isDesktop]);
-  const [calendarState, setCalendarState] = useState({
-    isLoading: false,
-    error: null,
-    events: [],
-    isOpenModal: false,
-    selectedEventId: null,
-    selectedRange: null,
-  });
 
+  //   const [calendarState, setCalendarState] = useState({
+  //     isLoading: false,
+  //     error: null,
+  //     events: [],
+  //     isOpenModal: false,
+  //     selectedEventId: null,
+  //     selectedRange: null,
+  //   });
+
+  const startLoading = () => {
+    setCalendarState((prevState: any) => ({
+      ...prevState,
+      isLoading: true,
+    }));
+  };
+
+  const hasError = (error: any) => {
+    setCalendarState((prevState: any) => ({
+      ...prevState,
+      isLoading: false,
+      error: error,
+    }));
+  };
   const handleClickToday = () => {
     const calendarEl = calendarRef.current;
     if (calendarEl) {
@@ -106,12 +162,13 @@ export default function Workout() {
   const selectedEventSelector = () => {
     const { events, selectedEventId } = calendarState;
     if (selectedEventId) {
-      return events.find((_event: any) => _event.id === selectedEventId);
+      return events.find((_event: any) => _event._id === selectedEventId);
     }
     return null;
   };
 
   const selectedEvent = selectedEventSelector();
+  console.log("selectedEvent", selectedEvent);
   function getEventsSuccess(payload: any) {
     setCalendarState((prevState: any) => ({
       ...prevState,
@@ -147,7 +204,7 @@ export default function Workout() {
 
   function deleteEventSuccess(payload: any) {
     const { eventId } = payload;
-    setCalendarState((prevState) => ({
+    setCalendarState((prevState: any) => ({
       ...prevState,
       events: prevState.events.filter((event: any) => event.id !== eventId),
     }));
@@ -155,15 +212,17 @@ export default function Workout() {
 
   function selectEvent(payload: any) {
     const eventId = payload;
-    setCalendarState((prevState) => ({
+    console.log({ eventId });
+    setCalendarState((prevState: any) => ({
       ...prevState,
       isOpenModal: true,
       selectedEventId: eventId,
     }));
+    console.log("After setting event id", calendarState);
   }
 
   function openModal() {
-    setCalendarState((prevState) => ({
+    setCalendarState((prevState: any) => ({
       ...prevState,
       isOpenModal: true,
     }));
@@ -203,6 +262,15 @@ export default function Workout() {
     }
     selectRange(arg.start, arg.end);
   };
+  const handleSelectEvent = (arg: EventClickArg) => {
+    console.log({ arg });
+    console.log("arg event id", arg.event._def.extendedProps?._id);
+    selectEvent(arg.event._def.extendedProps?._id);
+  };
+  const handleDropEvent = async ({ event }: EventDropArg) => {
+    try {
+    } catch (error) {}
+  };
 
   return (
     <Page title="Calendar">
@@ -219,8 +287,9 @@ export default function Workout() {
               startIcon={
                 <Iconify icon={"eva:plus-fill"} width={20} height={20} />
               }
+              onClick={openModal}
             >
-              New Event
+              New Workout
             </Button>
           }
         />
@@ -247,7 +316,11 @@ export default function Workout() {
               initialView={view}
               dayMaxEventRows={3}
               eventDisplay="block"
+              allDayMaintainDuration
+              eventResizableFromStart
               headerToolbar={false}
+              eventDrop={(arg) => handleDropEvent(arg)}
+              eventClick={(arg) => handleSelectEvent(arg)}
               height={isDesktop ? 720 : "auto"}
               plugins={[
                 dayGridPlugin,
@@ -279,9 +352,11 @@ export default function Workout() {
               sx={{ width: "100%", height: "100%", position: "fixed" }}
             />
           </Box>
-          <DialogTitle>Add Workout</DialogTitle>
+          <DialogTitle>
+            {selectedEvent ? "Edit Event" : "Add Event"}
+          </DialogTitle>
           <CalendarForm
-            event={selectedEvent}
+            event={selectedEvent || {}}
             range={calendarState.selectedRange}
             onCancel={closeModal}
           />
