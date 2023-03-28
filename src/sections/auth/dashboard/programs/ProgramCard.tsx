@@ -19,6 +19,8 @@ import Image from "../../../../components/Image";
 import SvgIconStyle from "../../../../components/SvgIconStyle";
 import { LoadingButton } from "@mui/lab";
 import useAuth from "../../../../hooks/useAuth";
+import { useRouter } from "next/router";
+import { PATH_DASHBOARD } from "../../../../routes/path";
 
 // ----------------------------------------------------------------------
 
@@ -37,6 +39,7 @@ const OverlayStyle = styled("div")(({ theme }) => ({
 export default function ProgramCard({ program }: any) {
   const { _id, name, description, image } = program;
   const { currentPlan, setCurrentPlan } = useAuth();
+  const { push } = useRouter();
   console.log("current plan", currentPlan);
 
   const handleOnClick = async () => {
@@ -45,6 +48,7 @@ export default function ProgramCard({ program }: any) {
       currentProgram: name,
       currentProgramId: _id,
     }));
+    push(PATH_DASHBOARD.dashboard.member.trainers);
   };
   return (
     <Card sx={{ textAlign: "center" }}>

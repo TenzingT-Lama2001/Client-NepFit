@@ -39,7 +39,7 @@ export default function TrainerCard({ trainer }: any) {
   console.log({ avatarUrl });
   const { currentPlan, setCurrentPlan } = useAuth();
   console.log("current plan", currentPlan);
-
+  console.log({ _id, firstName, lastName, avatarUrl, email, classTime });
   const handleOnClick = async () => {
     setCurrentPlan((prevPlan: any) => ({
       ...prevPlan,

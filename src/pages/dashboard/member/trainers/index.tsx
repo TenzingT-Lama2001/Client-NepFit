@@ -2,9 +2,10 @@
 import { Container, Box } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { getPrograms } from "../../../../api/programs";
-import { getTrainers } from "../../../../api/trainer";
+import { getTrainerByProgramId, getTrainers } from "../../../../api/trainer";
 import HeaderBreadcrumbs from "../../../../components/HeaderBreadcrumbs";
 import Page from "../../../../components/Page";
+import useAuth from "../../../../hooks/useAuth";
 
 import Layout from "../../../../layouts";
 import { PATH_DASHBOARD } from "../../../../routes/path";
@@ -22,24 +23,35 @@ TrainersList.getLayout = function getLayout(page: React.ReactElement) {
 // ----------------------------------------------------------------------
 
 export default function TrainersList() {
-  const {
-    data: { trainers },
-    isLoading,
-    refetch,
-  } = useQuery<any>(
-    ["get_trainers"],
-    () =>
-      getTrainers({
-        page: "",
-        limit: "",
-        searchQuery: "",
-        sortBy: "",
-        order: "asc",
-      }),
+  const { currentPlan } = useAuth();
+  // const {
+  //   data: { trainers },
+  //   isLoading,
+  //   refetch,
+  // } = useQuery<any>(
+  //   ["get_trainers"],
+  //   () =>
+  //     getTrainers({
+  //       page: "",
+  //       limit: "",
+  //       searchQuery: "",
+  //       sortBy: "",
+  //       order: "asc",
+  //     }),
+  //   {
+  //     initialData: { results: [] },
+  //     onSuccess(data) {
+  //       console.log("TRAINERS DATA!!!!!!!!!!!!!!!!!!!!", data);
+  //     },
+  //   }
+  // );
+
+  const { data, isLoading, refetch } = useQuery<any>(
+    ["get_trainer_by_programId"],
+    () => getTrainerByProgramId(currentPlan?.currentProgramId as string),
     {
-      initialData: { results: [] },
       onSuccess(data) {
-        console.log("TRAINERS DATA!!!!!!!!!!!!!!!!!!!!", data);
+        console.log("TRAINERS DATA!!!!!!!!!!!!!!!!!!!!", data[0]);
       },
     }
   );
@@ -69,7 +81,7 @@ export default function TrainersList() {
             },
           }}
         >
-          {trainers?.map((trainer: any) => (
+          {data?.map((trainer: any) => (
             <TrainerCard key={trainer._id} trainer={trainer} />
           ))}
         </Box>
