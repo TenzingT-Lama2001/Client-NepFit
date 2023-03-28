@@ -13,12 +13,14 @@ import {
 import { Alert, IconButton, InputAdornment, Stack, Link } from "@mui/material";
 import Iconify from "../../../components/Iconify";
 import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/path";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { login } from "../../../api/auth";
 import useIsMountedRef from "../../../hooks/useIsMountedRef";
 import { useSnackbar } from "notistack";
 import useAuth from "../../../hooks/useAuth";
 import LoadingScreen from "../../../components/LoadingScreen";
+import { getOneMembership } from "../../../api/membership";
+import Cookies from "js-cookie";
 type FormValuesProps = {
   email: string;
   password: string;
@@ -29,7 +31,8 @@ type FormValuesProps = {
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const isMountedRef = useIsMountedRef();
-  const { auth, setAuth, setStripeDetails } = useAuth();
+  const { auth, setAuth, setStripeDetails, setMembership, membership } =
+    useAuth();
   const { enqueueSnackbar } = useSnackbar();
   const { push } = useRouter();
   const LoginSchema = Yup.object().shape({
@@ -59,18 +62,26 @@ export default function LoginForm() {
 
   const loginMutation = useMutation((data: FormValuesProps) => login(data), {
     onSuccess(data) {
-      console.log("login data", data);
+      console.log("LOGIN DATA!@@@@@@@@@@@@@@@@@", data);
       setAuth({
         id: data.user._id,
-        name: data.user.first_name,
+        name: data.user.firstName,
         email: data.user.email,
         role: data.user.role,
         accessToken: data.accessToken,
+        status: data.user.status,
       });
       setStripeDetails((prev: any) => ({
         ...prev,
         stripeCustomerId: data.user.stripeCustomerId,
       }));
+      setMembership({
+        membershipId: data.membership._id,
+        programId: data.membership.program,
+        packageId: data.membership.packages,
+        trainerId: data.membership.trainer,
+      });
+      console.log("MEMBERSHIP FROM LOGIN@@@@@@@@@@@@@@", { membership });
       enqueueSnackbar(data.message || "Login Successful");
       reset();
       if (auth?.role) {
@@ -91,6 +102,8 @@ export default function LoginForm() {
       );
     },
   });
+
+  console.log({ auth });
   const onSubmit = async (data: FormValuesProps) => {
     try {
       loginMutation.mutate(data);

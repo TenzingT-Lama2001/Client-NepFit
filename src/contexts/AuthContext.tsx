@@ -11,6 +11,7 @@ type AuthContextType = {
     email: string;
     role: Roles;
     accessToken: string;
+    status: string;
   } | null;
   setAuth: SetValue;
   currentPlan: {
@@ -41,6 +42,13 @@ type AuthContextType = {
     selectedRange: null | { start: Date; end: Date };
   };
   setCalendarState: SetValue;
+  membership: {
+    membershipId?: string;
+    programId?: string;
+    packageId?: string;
+    trainerId?: string;
+  } | null;
+  setMembership: SetValue;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -51,6 +59,7 @@ type AuthProviderProps = {
 function AuthProvider({ children }: AuthProviderProps) {
   const [auth, setAuth] = useState(null);
   const [currentPlan, setCurrentPlan] = useState(null);
+  const [membership, setMembership] = useState(null);
   const [calendarState, setCalendarState] = useState({
     isLoading: false,
     error: null,
@@ -71,6 +80,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         setStripeDetails,
         calendarState,
         setCalendarState,
+        membership,
+        setMembership,
       }}
     >
       {children}
