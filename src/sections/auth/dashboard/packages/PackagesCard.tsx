@@ -83,6 +83,7 @@ export default function PackagesCard({ card, index }: any) {
       console.log({ email });
       console.log({ currentPlan });
       console.log({ programId });
+      console.log({ trainerId });
       // createCustomerMutation.mutate(email);
       createSubscriptionMutation.mutate({
         priceId: stripePackagePriceId,

@@ -4,6 +4,9 @@ import { useState } from "react";
 import { invoiceList, invoicePreview } from "../../../../api/stripe";
 import useAuth from "../../../../hooks/useAuth";
 import { useSnackbar } from "notistack";
+import useRefreshToken from "../../../../hooks/useRefreshToken";
+import { useRouter } from "next/router";
+import { PATH_DASHBOARD } from "../../../../routes/path";
 interface Props {
   clientSecret: string;
   subscriptionId: string;
@@ -14,8 +17,9 @@ const PaymentForm: React.FC<Props> = ({ clientSecret, subscriptionId }) => {
   const { enqueueSnackbar } = useSnackbar();
   const stripe = useStripe();
   const elements = useElements();
+  const { push } = useRouter();
   const [error, setError] = useState<string | null>(null);
-
+  const refresh = useRefreshToken();
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -65,6 +69,9 @@ const PaymentForm: React.FC<Props> = ({ clientSecret, subscriptionId }) => {
     }
 
     enqueueSnackbar("Payment Successful");
+    enqueueSnackbar("Your membership will be activated within a day");
+
+    push(PATH_DASHBOARD.dashboard.member.schedule);
 
     // The subscription was successfully created.
     console.log("Subscription created!");

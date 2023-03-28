@@ -94,7 +94,8 @@ export default function CalendarForm({ event, range, onCancel }: Props) {
     title: Yup.string().max(255).required("Title is required"),
     description: Yup.string().max(5000),
   });
-
+  const role = auth?.role;
+  console.log({ role });
   const methods = useForm({
     resolver: yupResolver(EventSchema),
     defaultValues: getInitialValues(event, range),
@@ -294,13 +295,14 @@ export default function CalendarForm({ event, range, onCancel }: Props) {
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3} sx={{ p: 3 }}>
-        <RHFTextField name="title" label="Title" />
+        <RHFTextField name="title" label="Title" disabled={role === "member"} />
 
         <RHFTextField
           name="description"
           label="Description"
           multiline
           rows={4}
+          disabled={role === "member"}
         />
 
         <Controller
@@ -312,6 +314,7 @@ export default function CalendarForm({ event, range, onCancel }: Props) {
               label="Start date"
               inputFormat="dd/MM/yyyy hh:mm a"
               renderInput={(params) => <TextField {...params} fullWidth />}
+              disabled={role === "member"}
             />
           )}
         />
@@ -329,6 +332,7 @@ export default function CalendarForm({ event, range, onCancel }: Props) {
                   {...params}
                   fullWidth
                   error={!!isDateError}
+                  disabled={role === "member"}
                   helperText={
                     isDateError && "End date must be later than start date"
                   }
@@ -351,36 +355,38 @@ export default function CalendarForm({ event, range, onCancel }: Props) {
       />
 
       <DialogActions>
-        {!isCreating && (
-          <Tooltip title="Delete Workout">
-            <IconButton onClick={() => handleDelete()}>
-              <Iconify icon="eva:trash-2-outline" width={20} height={20} />
-            </IconButton>
-          </Tooltip>
-        )}
+        {!isCreating &&
+          (role === "trainer" ? (
+            <Tooltip title="Delete Workout">
+              <IconButton onClick={() => handleDelete()}>
+                <Iconify icon="eva:trash-2-outline" width={20} height={20} />
+              </IconButton>
+            </Tooltip>
+          ) : null)}
         <Box sx={{ flexGrow: 1 }} />
 
         <Button variant="outlined" color="inherit" onClick={onCancel}>
           Cancel
         </Button>
-
-        {event._id ? (
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
-            Update
-          </LoadingButton>
-        ) : (
-          <LoadingButton
-            type="submit"
-            variant="contained"
-            loading={isSubmitting}
-          >
-            Add
-          </LoadingButton>
-        )}
+        {role === "trainer" ? (
+          event._id ? (
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+            >
+              Update
+            </LoadingButton>
+          ) : (
+            <LoadingButton
+              type="submit"
+              variant="contained"
+              loading={isSubmitting}
+            >
+              Add
+            </LoadingButton>
+          )
+        ) : null}
       </DialogActions>
     </FormProvider>
   );
