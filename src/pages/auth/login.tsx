@@ -66,7 +66,7 @@ export default function Login() {
   const smUp = useResponsive("up", "sm");
   const mdUp = useResponsive("up", "md");
   const refresh = useRefreshToken();
-  const { auth, setAuth } = useAuth();
+const { auth, setAuth } = useAuth();
   const { push } = useRouter();
 
   const autoLogin = async () => {

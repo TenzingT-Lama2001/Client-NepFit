@@ -9,9 +9,9 @@ export const useRefreshToken = () => {
 
   const refresh = async () => {
     const response = await axios.get("/api/common/auth/refresh");
-    console.log("response@@@@@@@@@@@@@@@@@@@@@", response);
-    console.log("response data role", response.data.role);
-    console.log("response data accessToken", response.data.accessToken);
+    // console.log("response@@@@@@@@@@@@@@@@@@@@@", response);
+    // console.log("response data role", response.data.role);
+    // console.log("response data accessToken", response.data.accessToken);
     setAuth((prev: any) => ({
       ...prev,
       id: response.data._id,

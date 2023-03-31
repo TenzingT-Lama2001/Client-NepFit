@@ -32,7 +32,8 @@ import { RHFUploadAvatar } from "../../../../components/hook-form/RHFUpload";
 import Iconify from "../../../../components/Iconify";
 import axios from "axios";
 import { MobileDateTimePicker } from "@mui/x-date-pickers";
-import { createTrainer, updateTrainer } from "../../../../api/trainer";
+
+import { createStaff, updateStaff } from "../../../../api/staff";
 
 export type Staff = {
   id?: string;
@@ -69,7 +70,7 @@ export default function StaffNewEditForm({
   const [image, setImage] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const { push, query } = useRouter();
-  const { trainerId } = query;
+  const { staffId } = query;
   const { enqueueSnackbar } = useSnackbar();
 
   let NewStaffSchema;
@@ -137,11 +138,11 @@ export default function StaffNewEditForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEdit, currentStaff]);
   const updateStaffMutation = useMutation(
-    (data: any) => updateTrainer(trainerId as string, data),
+    (data: any) => updateStaff(staffId as string, data),
     {
       onSuccess(data) {
         enqueueSnackbar(data.message);
-        push(PATH_DASHBOARD.dashboard.admin.trainers.list);
+        push(PATH_DASHBOARD.dashboard.admin.staffs.list);
         reset();
       },
       onError(err: any) {
@@ -155,10 +156,10 @@ export default function StaffNewEditForm({
       },
     }
   );
-  const createStaffMutation = useMutation((data: any) => createTrainer(data), {
+  const createStaffMutation = useMutation((data: any) => createStaff(data), {
     onSuccess(data) {
       enqueueSnackbar(data.message);
-      push(PATH_DASHBOARD.dashboard.admin.trainers.root);
+      push(PATH_DASHBOARD.dashboard.admin.staffs.list);
       reset();
     },
     onError(err: any) {
