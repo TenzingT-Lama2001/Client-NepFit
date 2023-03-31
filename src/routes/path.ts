@@ -56,6 +56,10 @@ export const PATH_DASHBOARD = {
       notification: path(ROOTS_DASHBOARD, "/staff/notification"),
       invoice: path(ROOTS_DASHBOARD, "/staff/invoice"),
       orders: path(ROOTS_DASHBOARD, "/staff/orders"),
+      attendance: {
+        create: path(ROOTS_DASHBOARD, "/staff/attendance/create"),
+        list: path(ROOTS_DASHBOARD, "/staff/attendance/list"),
+      },
     },
     admin: {
       root: ADMIN_DASHBOARD,

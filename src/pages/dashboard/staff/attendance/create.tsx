@@ -42,18 +42,25 @@ import { Staff } from "../../../../sections/auth/dashboard/staff-list/StaffNewEd
 import { deleteStaff, getStaffs } from "../../../../api/staff";
 import StaffTableToolbar from "../../../../sections/auth/dashboard/staff-list/StaffTableToolbar";
 import StaffTableRow from "../../../../sections/auth/dashboard/staff-list/StaffTableRow";
+import AttendanceTableToolbar from "../../../../sections/auth/dashboard/attendance/AttendanceTableToolbar";
+import AttendanceTableRow from "../../../../sections/auth/dashboard/attendance/AttendanceTableRow";
+import {
+  createAttendance,
+  getMembersFromMembership,
+} from "../../../../api/attendance";
 
 const TABLE_HEAD = [
   { id: "firstname", label: "firstname", align: "left" },
   { id: "lastname", label: "lastname", align: "left" },
   { id: "email", label: "email", align: "left" },
+  { id: "present", label: "Present", align: "left" },
   { id: "" },
 ];
 const STATUS_OPTIONS = ["all", "active", "banned"];
-StaffList.getLayout = function getLayout(page: React.ReactElement) {
+AttendanceCreate.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default function StaffList() {
+export default function AttendanceCreate() {
   const {
     dense,
     page,
@@ -78,6 +85,16 @@ export default function StaffList() {
   const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState("");
   const { enqueueSnackbar } = useSnackbar();
+
+  const [checkedMembers, setCheckedMembers] = useState<string[]>([]);
+  const [attendanceData, setAttendanceData] = useState<any>();
+  const handleToggleMember = (memberId: string) => {
+    if (checkedMembers.includes(memberId)) {
+      setCheckedMembers(checkedMembers.filter((id) => id !== memberId));
+    } else {
+      setCheckedMembers([...checkedMembers, memberId]);
+    }
+  };
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } =
     useTabs("all");
 
@@ -111,12 +128,30 @@ export default function StaffList() {
     filterStatus,
   });
   console.log({ dataFiltered });
+
   const denseHeight = dense ? 52 : 72;
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
     (!dataFiltered.length && !!filterStatus);
 
+  const createAttendanceMutation = useMutation(
+    (data: any) => createAttendance(data),
+    {
+      onSuccess(data) {
+        enqueueSnackbar(data.message);
+        refetch();
+      },
+      onError(err: any) {
+        enqueueSnackbar(
+          err.message ??
+            err.response.data.message ??
+            err.data.message ??
+            "Something went wrong"
+        );
+      },
+    }
+  );
   const deleteStaffMutation = useMutation((id: any) => deleteStaff(id), {
     onSuccess(data) {
       enqueueSnackbar(data.message);
@@ -136,9 +171,9 @@ export default function StaffList() {
     isLoading,
     refetch,
   } = useQuery<any>(
-    ["get_staffs", page, rowsPerPage, filterName, orderBy, order],
+    ["get_members_membership", page, rowsPerPage, filterName, orderBy, order],
     () =>
-      getStaffs({
+      getMembersFromMembership({
         page,
         limit: rowsPerPage,
         searchQuery: filterName,
@@ -147,58 +182,55 @@ export default function StaffList() {
       }),
     {
       initialData: { results: [] },
-      onSuccess({ staffs, totalStaffs }) {
-        console.log("staffs", staffs);
-        // console.log("staffs", staffs);
-        setTotalCount(totalStaffs);
-        console.log("total", totalStaffs);
-        setTableData(staffs);
+      onSuccess({ members, totalMembers }) {
+        console.log("members", members);
+        // console.log("members", members);
+        setTotalCount(totalMembers);
+        console.log("total", totalMembers);
+        setTableData(members);
         console.log(tableData);
       },
     }
   );
 
+  const handleSubmit = () => {
+    setAttendanceData(dataFiltered);
+
+    type Attendance = {
+      memberId: string;
+      is_present: boolean;
+      date: Date;
+    }[];
+
+    let attendance: Attendance = [];
+    checkedMembers.map((memberId) => {
+      const obj = { memberId, is_present: true, date: new Date() };
+      console.log({ obj });
+      attendance.push(obj);
+      console.log("submitting attendance", attendance);
+    });
+    console.log("Attendance data", attendanceData);
+    console.log("checked members", checkedMembers);
+
+    createAttendanceMutation.mutate(attendance);
+  };
   return (
-    <Page title="Staff: List">
+    <Page title="Attendance">
       <Container maxWidth="lg">
         <HeaderBreadcrumbs
-          heading="Staff List"
+          heading="Attendance"
           links={[
-            { name: "Dashboard", href: PATH_DASHBOARD.dashboard.admin.root },
-            { name: "Staff", href: PATH_DASHBOARD.dashboard.admin.root },
-            { name: "List" },
+            { name: "Dashboard", href: PATH_DASHBOARD.dashboard.staff.root },
+            { name: "Staff", href: PATH_DASHBOARD.dashboard.staff.root },
+            { name: "Attendance" },
           ]}
           action={
-            <NextLink href={PATH_DASHBOARD.dashboard.admin.staffs.new} passHref>
-              <Button
-                variant="contained"
-                startIcon={<Iconify icon={"eva:plus-fill"} />}
-              >
-                New Staff
-              </Button>
-            </NextLink>
+            <Button variant="contained" onClick={() => handleSubmit()}>
+              Submit
+            </Button>
           }
         />
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: "background.neutral" }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
-          <Divider />
-          <StaffTableToolbar
-            filterName={filterName}
-            onFilterName={handleFilterName}
-          />
-
           <TableContainer sx={{ minWidth: 800, position: "relative" }}>
             {selected.length > 0 && (
               <TableSelectedActions
@@ -242,18 +274,18 @@ export default function StaffList() {
 
               <TableBody>
                 {dataFiltered.length > 0 ? (
-                  dataFiltered
-                    // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row: any) => (
-                      <StaffTableRow
-                        key={row._id}
-                        row={row}
-                        selected={selected.includes(row._id)}
-                        onSelectRow={() => onSelectRow(row._id)}
-                        onDeleteRow={() => handleDeleteRow(row._id)}
-                        onEditRow={() => handleEditRow(row._id)}
-                      />
-                    ))
+                  dataFiltered.map((row: any) => (
+                    <AttendanceTableRow
+                      key={row._id}
+                      row={row}
+                      checked={checkedMembers.includes(row._id)}
+                      onToggleMember={() => handleToggleMember(row._id)}
+                      selected={selected.includes(row._id)}
+                      onSelectRow={() => onSelectRow(row._id)}
+                      onDeleteRow={() => handleDeleteRow(row._id)}
+                      onEditRow={() => handleEditRow(row._id)}
+                    />
+                  ))
                 ) : (
                   <TableNoData isNotFound={isNotFound} />
                 )}

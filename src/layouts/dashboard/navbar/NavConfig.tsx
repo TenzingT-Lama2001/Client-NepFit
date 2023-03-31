@@ -187,6 +187,22 @@ const staffNavConfig = [
         path: PATH_DASHBOARD.dashboard.staff.orders,
         icon: <PaidIcon />,
       },
+
+      {
+        title: "Attendance",
+        path: PATH_DASHBOARD.dashboard.staff.attendance,
+        icon: <PaidIcon />,
+        children: [
+          {
+            title: "list",
+            path: PATH_DASHBOARD.dashboard.staff.attendance.list,
+          },
+          {
+            title: "create",
+            path: PATH_DASHBOARD.dashboard.staff.attendance.create,
+          },
+        ],
+      },
     ],
   },
 ];

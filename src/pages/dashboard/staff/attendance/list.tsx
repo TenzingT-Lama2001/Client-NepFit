@@ -8,6 +8,7 @@ import {
   Switch,
   Tab,
   Table,
+  TextField,
   TableBody,
   TableContainer,
   TablePagination,
@@ -42,18 +43,30 @@ import { Staff } from "../../../../sections/auth/dashboard/staff-list/StaffNewEd
 import { deleteStaff, getStaffs } from "../../../../api/staff";
 import StaffTableToolbar from "../../../../sections/auth/dashboard/staff-list/StaffTableToolbar";
 import StaffTableRow from "../../../../sections/auth/dashboard/staff-list/StaffTableRow";
+import AttendanceTableToolbar from "../../../../sections/auth/dashboard/attendance/AttendanceTableToolbar";
+import AttendanceTableRow from "../../../../sections/auth/dashboard/attendance/AttendanceTableRow";
+import {
+  createAttendance,
+  getAttendance,
+  getMembersFromMembership,
+} from "../../../../api/attendance";
+import { Controller } from "react-hook-form";
+import { MobileDateTimePicker } from "@mui/x-date-pickers";
 
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import AttendanceListTableRow from "../../../../sections/auth/dashboard/attendance/AttendanceListTableRow";
 const TABLE_HEAD = [
-  { id: "firstname", label: "firstname", align: "left" },
-  { id: "lastname", label: "lastname", align: "left" },
-  { id: "email", label: "email", align: "left" },
+  { id: "firstname", label: "First Name", align: "left" },
+  { id: "lastname", label: "Last Name", align: "left" },
+  { id: "email", label: "Email", align: "left" },
+  { id: "status", label: "Status", align: "left" },
   { id: "" },
 ];
 const STATUS_OPTIONS = ["all", "active", "banned"];
-StaffList.getLayout = function getLayout(page: React.ReactElement) {
+AttendanceCreate.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>;
 };
-export default function StaffList() {
+export default function AttendanceCreate() {
   const {
     dense,
     page,
@@ -78,6 +91,16 @@ export default function StaffList() {
   const [tableData, setTableData] = useState([]);
   const [filterName, setFilterName] = useState("");
   const { enqueueSnackbar } = useSnackbar();
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [checkedMembers, setCheckedMembers] = useState<string[]>([]);
+  const [attendanceData, setAttendanceData] = useState<any>();
+  const handleToggleMember = (memberId: string) => {
+    if (checkedMembers.includes(memberId)) {
+      setCheckedMembers(checkedMembers.filter((id) => id !== memberId));
+    } else {
+      setCheckedMembers([...checkedMembers, memberId]);
+    }
+  };
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } =
     useTabs("all");
 
@@ -86,20 +109,6 @@ export default function StaffList() {
     setPage(0);
   };
 
-  const handleDeleteRow = (id: string) => {
-    // const deleteRow = tableData.filter((row: any) => row._id !== id);
-    // setSelected([]);
-    // setTableData(deleteRow);
-    deleteStaffMutation.mutate(id);
-    refetch();
-  };
-  const handleDeleteRows = (selected: string[]) => {
-    const deleteRows = tableData.filter(
-      (row: any) => !selected.includes(row._id)
-    );
-    setSelected([]);
-    setTableData(deleteRows);
-  };
   const handleEditRow = (staffUd: string) => {
     push(PATH_DASHBOARD.dashboard.admin.staffs.edit(paramCase(staffUd)));
   };
@@ -111,119 +120,55 @@ export default function StaffList() {
     filterStatus,
   });
   console.log({ dataFiltered });
+
   const denseHeight = dense ? 52 : 72;
 
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
     (!dataFiltered.length && !!filterStatus);
 
-  const deleteStaffMutation = useMutation((id: any) => deleteStaff(id), {
-    onSuccess(data) {
-      enqueueSnackbar(data.message);
-      refetch();
-    },
-    onError(err: any) {
-      enqueueSnackbar(
-        err.message ??
-          err.response.data.message ??
-          err.data.message ??
-          "Something went wrong"
-      );
-    },
-  });
-  const {
-    data: { results },
-    isLoading,
-    refetch,
-  } = useQuery<any>(
-    ["get_staffs", page, rowsPerPage, filterName, orderBy, order],
-    () =>
-      getStaffs({
-        page,
-        limit: rowsPerPage,
-        searchQuery: filterName,
-        sortBy: orderBy,
-        order,
-      }),
+  const handleDateChange = (date: Date | null) => {
+    if (date) {
+      setSelectedDate(date);
+      console.log(date);
+      console.log(typeof date);
+    }
+  };
+
+  const { data, isLoading, refetch } = useQuery<any>(
+    ["get_attendance", selectedDate],
+    () => getAttendance(selectedDate as Date),
     {
-      initialData: { results: [] },
-      onSuccess({ staffs, totalStaffs }) {
-        console.log("staffs", staffs);
-        // console.log("staffs", staffs);
-        setTotalCount(totalStaffs);
-        console.log("total", totalStaffs);
-        setTableData(staffs);
-        console.log(tableData);
+      onSuccess(data) {
+        console.log("GET ATTENDANCE", data);
+        setTableData(data);
       },
     }
   );
-
   return (
-    <Page title="Staff: List">
+    <Page title="Attendance">
       <Container maxWidth="lg">
         <HeaderBreadcrumbs
-          heading="Staff List"
+          heading="Attendance"
           links={[
-            { name: "Dashboard", href: PATH_DASHBOARD.dashboard.admin.root },
-            { name: "Staff", href: PATH_DASHBOARD.dashboard.admin.root },
-            { name: "List" },
+            { name: "Dashboard", href: PATH_DASHBOARD.dashboard.staff.root },
+            { name: "Staff", href: PATH_DASHBOARD.dashboard.staff.root },
+            { name: "Attendance" },
           ]}
           action={
-            <NextLink href={PATH_DASHBOARD.dashboard.admin.staffs.new} passHref>
-              <Button
-                variant="contained"
-                startIcon={<Iconify icon={"eva:plus-fill"} />}
-              >
-                New Staff
-              </Button>
-            </NextLink>
+            <DatePicker
+              label="Select date"
+              value={selectedDate}
+              onChange={handleDateChange}
+              renderInput={(props) => (
+                <TextField {...props} variant="outlined" />
+              )}
+            />
           }
         />
+
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: "background.neutral" }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
-          <Divider />
-          <StaffTableToolbar
-            filterName={filterName}
-            onFilterName={handleFilterName}
-          />
-
           <TableContainer sx={{ minWidth: 800, position: "relative" }}>
-            {selected.length > 0 && (
-              <TableSelectedActions
-                dense={dense}
-                numSelected={selected.length}
-                rowCount={tableData.length}
-                onSelectAllRows={(checked) =>
-                  onSelectAllRows(
-                    checked,
-                    tableData.map((row: any) => row._id)
-                  )
-                }
-                actions={
-                  <Tooltip title="Delete">
-                    <IconButton
-                      color="primary"
-                      onClick={() => handleDeleteRows(selected)}
-                    >
-                      <Iconify icon={"eva:trash-2-outline"} />
-                    </IconButton>
-                  </Tooltip>
-                }
-              />
-            )}
-
             <Table size={dense ? "small" : "medium"}>
               <TableHeadCustom
                 order={order}
@@ -232,28 +177,13 @@ export default function StaffList() {
                 rowCount={tableData.length}
                 numSelected={selected.length}
                 onSort={onSort}
-                onSelectAllRows={(checked) =>
-                  onSelectAllRows(
-                    checked,
-                    tableData.map((row: any) => row._id)
-                  )
-                }
               />
 
               <TableBody>
                 {dataFiltered.length > 0 ? (
-                  dataFiltered
-                    // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row: any) => (
-                      <StaffTableRow
-                        key={row._id}
-                        row={row}
-                        selected={selected.includes(row._id)}
-                        onSelectRow={() => onSelectRow(row._id)}
-                        onDeleteRow={() => handleDeleteRow(row._id)}
-                        onEditRow={() => handleEditRow(row._id)}
-                      />
-                    ))
+                  dataFiltered.map((row: any) => (
+                    <AttendanceListTableRow key={row._id} row={row} />
+                  ))
                 ) : (
                   <TableNoData isNotFound={isNotFound} />
                 )}
