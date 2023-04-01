@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import Iconify from "../../../../components/Iconify";
 import { PATH_DASHBOARD } from "../../../../routes/path";
 import { TableMoreMenu } from "../../../../components/table";
+import Label from "../../../../components/Label";
 
 // ----------------------------------------------------------------------
 
@@ -59,7 +60,16 @@ export default function AttendanceListTableRow({ row }: any) {
 
       <TableCell>{lastName}</TableCell>
       <TableCell align="left">{email}</TableCell>
-      <TableCell align="left">{is_present ? "Present" : "Absent"}</TableCell>
+
+      <TableCell align="left">
+        <Label
+          variant={theme.palette.mode === "light" ? "ghost" : "filled"}
+          color={is_present ? "Present" && "success" : "Absent" && "error"}
+          sx={{ textTransform: "capitalize" }}
+        >
+          {is_present ? "Present" : "Absent"}
+        </Label>
+      </TableCell>
     </TableRow>
   );
 }
