@@ -143,11 +143,13 @@ export default function AttendanceCreate() {
         refetch();
       },
       onError(err: any) {
+        console.log(err);
         enqueueSnackbar(
-          err.message ??
-            err.response.data.message ??
+          err.response.data.message ??
+            err.message ??
             err.data.message ??
-            "Something went wrong"
+            "Something went wrong",
+          { variant: "error" }
         );
       },
     }
@@ -190,6 +192,14 @@ export default function AttendanceCreate() {
         setTableData(members);
         console.log(tableData);
       },
+      onError(err: any) {
+        enqueueSnackbar(
+          err.message ??
+            err.response.data.message ??
+            err.data.message ??
+            "Something went wrong"
+        );
+      },
     }
   );
 
@@ -202,15 +212,27 @@ export default function AttendanceCreate() {
       date: Date;
     }[];
 
-    let attendance: Attendance = [];
+    let present: Attendance = [];
+    console.log("members from onsubmit", tableData);
     checkedMembers.map((memberId) => {
       const obj = { memberId, is_present: true, date: new Date() };
       console.log({ obj });
-      attendance.push(obj);
-      console.log("submitting attendance", attendance);
+      present.push(obj);
+      console.log("submitting attendance", present);
     });
-    console.log("Attendance data", attendanceData);
-    console.log("checked members", checkedMembers);
+
+    let absent: Attendance = [];
+    tableData.map((member) => {
+      const { _id } = member;
+      const absentObj = { memberId: _id, is_present: false, date: new Date() };
+      if (!present.some((p) => p.memberId === _id)) {
+        absent.push(absentObj);
+      }
+    });
+    console.log("present members", present);
+    console.log("absent members", absent);
+
+    const attendance: Attendance = present.concat(absent);
 
     createAttendanceMutation.mutate(attendance);
   };
