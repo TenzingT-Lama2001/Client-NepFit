@@ -5,6 +5,7 @@ import { Theme } from "@mui/material/styles";
 import { Controller, useFormContext } from "react-hook-form";
 import FormHelperText from "@mui/material/FormHelperText";
 import UploadAvatar from "../upload/UploadAvatar";
+import UploadSingleFile from "../upload/UploadSingleFile";
 export interface CustomFile extends File {
   path?: string;
   preview?: string;
@@ -55,6 +56,35 @@ export function RHFUploadAvatar({ name, ...other }: Props) {
               </FormHelperText>
             )}
           </div>
+        );
+      }}
+    />
+  );
+}
+export function RHFUploadSingleFile({ name, ...other }: Props) {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => {
+        const checkError = !!error && !field.value;
+
+        return (
+          <UploadSingleFile
+            accept="image/*"
+            file={field.value}
+            error={checkError}
+            helperText={
+              checkError && (
+                <FormHelperText error sx={{ px: 2 }}>
+                  {error.message}
+                </FormHelperText>
+              )
+            }
+            {...other}
+          />
         );
       }}
     />
