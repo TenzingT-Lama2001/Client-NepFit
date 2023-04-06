@@ -45,7 +45,7 @@ export default function TrainersList() {
   //     },
   //   }
   // );
-
+  console.log(currentPlan?.currentProgramId);
   const { data, isLoading, refetch } = useQuery<any>(
     ["get_trainer_by_programId"],
     () => getTrainerByProgramId(currentPlan?.currentProgramId as string),
