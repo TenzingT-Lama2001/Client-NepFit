@@ -1,5 +1,8 @@
 import { EventInput } from "@fullcalendar/core";
 import { createContext, ReactNode, useState } from "react";
+import { Product } from "../sections/auth/dashboard/product/ProductNewEditForm";
+import { Products } from "../pages/dashboard/admin/products/list";
+import { CartItem } from "../sections/auth/dashboard/product/ProductDetailsSummary";
 
 export type Roles = "admin" | "member" | "trainer" | "staff";
 
@@ -12,6 +15,7 @@ type AuthContextType = {
     role: Roles;
     accessToken: string;
     status: string;
+    address: string;
   } | null;
   setAuth: SetValue;
   currentPlan: {
@@ -49,6 +53,19 @@ type AuthContextType = {
     trainerId?: string;
   } | null;
   setMembership: SetValue;
+  productState: {
+    product: Products[];
+    checkout: {
+      activeStep: number;
+      cart: CartItem[];
+      subtotal: number;
+      total: number;
+      discount: number;
+      shipping: number;
+      billing: null;
+    };
+  } | null;
+  setProductState: SetValue;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -60,6 +77,18 @@ function AuthProvider({ children }: AuthProviderProps) {
   const [auth, setAuth] = useState(null);
   const [currentPlan, setCurrentPlan] = useState(null);
   const [membership, setMembership] = useState(null);
+  const [productState, setProductState] = useState({
+    product: [],
+    checkout: {
+      activeStep: 0,
+      cart: [],
+      subtotal: 0,
+      total: 0,
+      discount: 0,
+      shipping: 0,
+      billing: null,
+    },
+  });
   const [calendarState, setCalendarState] = useState({
     isLoading: false,
     error: null,
@@ -82,6 +111,8 @@ function AuthProvider({ children }: AuthProviderProps) {
         setCalendarState,
         membership,
         setMembership,
+        productState,
+        setProductState,
       }}
     >
       {children}

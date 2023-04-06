@@ -61,9 +61,25 @@ export const PATH_DASHBOARD = {
         list: path(ROOTS_DASHBOARD, "/staff/attendance/list"),
       },
     },
+
+    products: {
+      shop: path(ROOTS_DASHBOARD, "/products/shop"),
+      view: (name: string) => path(ROOTS_DASHBOARD, `/products/shop/${name}`),
+      root: path(ROOTS_DASHBOARD, "/products/shop"),
+      checkout: path(ROOTS_DASHBOARD, "/products/shop/checkout"),
+    },
     admin: {
       root: ADMIN_DASHBOARD,
-      products: path(ROOTS_DASHBOARD, "/admin/products"),
+      products: {
+        shop: path(ROOTS_DASHBOARD, "/products/shop"),
+        root: path(ROOTS_DASHBOARD, "/admin/products"),
+        new: path(ROOTS_DASHBOARD, "/admin/products/new"),
+        list: path(ROOTS_DASHBOARD, "/admin/products/list"),
+        edit: (productId: string) =>
+          path(ROOTS_DASHBOARD, `/admin/products/${productId}/edit`),
+        // view: (name: string) => path(ROOTS_DASHBOARD, `/products/shop/${name}`),
+      },
+
       members: {
         root: path(ROOTS_DASHBOARD, "/admin/members"),
         new: path(ROOTS_DASHBOARD, "/admin/members/new"),

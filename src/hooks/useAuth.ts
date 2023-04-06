@@ -30,6 +30,8 @@ const useAuth = () => {
     setCalendarState,
     membership,
     setMembership,
+    productState,
+    setProductState,
   } = authContext;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isInitialized, setIsInitialized] = useState(false);
@@ -54,6 +56,8 @@ const useAuth = () => {
     setCalendarState,
     membership,
     setMembership,
+    productState,
+    setProductState,
   };
 };
 

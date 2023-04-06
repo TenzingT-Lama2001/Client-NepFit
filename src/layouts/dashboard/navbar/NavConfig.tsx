@@ -86,6 +86,14 @@ const adminNavConfig = [
         title: "Products",
         path: PATH_DASHBOARD.dashboard.admin.products,
         icon: <CalendarMonthIcon />,
+        children: [
+          { title: "shop", path: PATH_DASHBOARD.dashboard.admin.products.shop },
+          { title: "list", path: PATH_DASHBOARD.dashboard.admin.products.list },
+          {
+            title: "create",
+            path: PATH_DASHBOARD.dashboard.admin.products.new,
+          },
+        ],
       },
       {
         title: "Package",

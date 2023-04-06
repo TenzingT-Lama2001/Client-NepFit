@@ -317,7 +317,7 @@ function applySortFilter({
   if (filterName) {
     tableData = tableData.filter(
       (item: Record<string, any>) =>
-        item.firstName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
+        item?.firstName?.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
     );
   }
 

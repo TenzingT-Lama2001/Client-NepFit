@@ -38,6 +38,5 @@ export default function AuthGuard({ children }: Props) {
     return <Login />;
   }
 
-  console.log({ isAuthenticated });
   return <>{children}</>;
 }
