@@ -56,6 +56,8 @@ export type CartItem = {
   qty: number;
   quantity: number;
   subtotal: number;
+  stripeProductId?: any;
+  stripeProductPriceId?: any;
 };
 type Props = {
   product: Products[];
@@ -76,7 +78,15 @@ export default function ProductDetailsSummary({
   const { push } = useRouter();
   const [status, setStatus] = useState<string>("");
 
-  const { name, _id, price, imageUrl, quantity } = product[0];
+  const {
+    name,
+    _id,
+    price,
+    imageUrl,
+    quantity,
+    stripeProductId,
+    stripeProductPriceId,
+  } = product[0];
   const { productState, setProductState } = useAuth();
 
   useEffect(() => {
@@ -147,7 +157,10 @@ export default function ProductDetailsSummary({
       onAddCart({
         ...values,
         subtotal: values.price * values.qty,
+        stripeProductId,
+        stripeProductPriceId,
       });
+      console.log({ stripeProductId, stripeProductPriceId });
 
       reset(defaultValues);
     } catch (error) {

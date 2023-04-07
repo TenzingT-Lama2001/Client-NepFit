@@ -51,10 +51,20 @@ export const invoiceList = async () => {
   return data;
 };
 
-export const createPaymentIntent = async (amount: number) => {
+export const createPaymentIntent = async ({
+  amount,
+  stripeProductIdArray,
+  stripeProductPriceIdArray,
+  stripeProductQty,
+}: any) => {
   console.log("sending amount", amount);
   const { data } = await axios.get(`/api/stripe/create-payment-intent`, {
-    params: { amount },
+    params: {
+      amount,
+      stripeProductIdArray,
+      stripeProductPriceIdArray,
+      stripeProductQty,
+    },
   });
   return data;
 };

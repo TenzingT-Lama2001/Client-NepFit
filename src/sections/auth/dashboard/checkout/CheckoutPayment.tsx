@@ -30,9 +30,9 @@ type FormValuesProps = {
 };
 
 export default function CheckoutPayment() {
-  const { productState, setProductState } = useAuth();
+  const { productState, setProductState, stripeDetails } = useAuth();
   const { product, checkout } = productState ?? {};
-
+  const { stripeProductId } = stripeDetails ?? {};
   const { subtotal } = checkout ?? {};
 
   const [clientSecret, setClientSecret] = useState("");
@@ -47,10 +47,28 @@ export default function CheckoutPayment() {
   //     .then(({ clientSecret }) => setClientSecret(clientSecret));
   // }, []);
   const amount = subtotal!;
+  const stripeProductIdArray = checkout?.cart.map(
+    (product) => product.stripeProductId
+  );
+  const stripeProductPriceIdArray = checkout?.cart.map(
+    (product) => product.stripeProductPriceId
+  );
 
+  const stripeProductQty = [];
+
+  for (let i = 0; i < checkout!.cart.length; i++) {
+    const { stripeProductId, qty, subtotal } = checkout!.cart[i];
+    stripeProductQty.push({ stripeProductId, qty, subtotal });
+  }
+  const data = {
+    amount,
+    stripeProductIdArray,
+    stripeProductPriceIdArray,
+    stripeProductQty,
+  };
   useQuery<any>(
-    ["create_payment_intent", amount],
-    () => createPaymentIntent(amount),
+    ["create_payment_intent", data],
+    () => createPaymentIntent(data),
     {
       onSuccess(data) {
         setClientSecret(data.clientSecret);

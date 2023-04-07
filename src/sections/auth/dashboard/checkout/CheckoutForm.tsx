@@ -5,13 +5,16 @@ import {
   useElements,
 } from "@stripe/react-stripe-js";
 import { LoadingButton } from "@mui/lab";
+import { useSnackbar } from "notistack";
+import useAuth from "../../../../hooks/useAuth";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
   const [message, setMessage] = useState<string | undefined>("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const { auth } = useAuth();
+  const { enqueueSnackbar } = useSnackbar();
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
@@ -22,12 +25,22 @@ export default function CheckoutForm() {
     }
 
     setIsLoading(true);
+    console.log({ elements });
 
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: `${window.location.origin}/completion`,
+        receipt_email: auth?.email,
+        return_url: `http://localhost:3000/dashboard/products/shop`,
+        payment_method_data: {
+          billing_details: {
+            email: auth?.email,
+            address: {
+              city: "Kathmandu",
+            },
+          },
+        },
       },
     });
 
@@ -39,12 +52,12 @@ export default function CheckoutForm() {
     if (error?.type === "card_error" || error?.type === "validation_error") {
       setMessage(error.message);
     } else {
-      setMessage("An unexpected error occurred.");
+      enqueueSnackbar("Payment Successful");
     }
 
     setIsLoading(false);
   };
-  const handleCompleteOrder = () => {};
+
   return (
     <form
       id="payment-form"
@@ -54,25 +67,15 @@ export default function CheckoutForm() {
       <PaymentElement
         id="payment-element"
         options={{
-          fields: {
-            billingDetails: { address: "never", email: "never" },
-          },
           layout: "accordion",
         }}
       />
-      {/* <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner" /> : "Pay now"}
-        </span>
-      </button> */}
       <LoadingButton
-        disabled={isLoading || !stripe || !elements}
         id="submit"
         fullWidth
         size="large"
         type="submit"
         variant="contained"
-        onClick={() => handleCompleteOrder()}
         sx={{ mt: "1rem" }}
       >
         Complete Order
