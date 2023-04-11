@@ -39,6 +39,7 @@ export const PATH_DASHBOARD = {
       trainers: path(ROOTS_DASHBOARD, "/member/trainers"),
       payment: path(ROOTS_DASHBOARD, "/member/payment"),
       report: path(ROOTS_DASHBOARD, "/member/report"),
+      booking: path(ROOTS_DASHBOARD, "/member/booking"),
       checkout: path(ROOTS_DASHBOARD, "/member/packages/checkout"),
     },
 
@@ -46,13 +47,32 @@ export const PATH_DASHBOARD = {
       root: TRAINER_DASHBOARD,
       members: path(ROOTS_DASHBOARD, "/trainer/members"),
       workout: path(ROOTS_DASHBOARD, "/trainer/workout"),
-      report: path(ROOTS_DASHBOARD, "/trainer/report"),
+
+      request: path(ROOTS_DASHBOARD, "/trainer/request"),
+      report: {
+        create: path(ROOTS_DASHBOARD, "/trainer/report/new"),
+        list: path(ROOTS_DASHBOARD, "/trainer/report/list"),
+      },
     },
 
     staff: {
       root: STAFF_DASHBOARD,
-      products: path(ROOTS_DASHBOARD, "/staff/products"),
-      members: path(ROOTS_DASHBOARD, "/staff/members"),
+      products: {
+        shop: path(ROOTS_DASHBOARD, "/products/shop"),
+        root: path(ROOTS_DASHBOARD, "/staff/products"),
+        new: path(ROOTS_DASHBOARD, "/staff/products/new"),
+        list: path(ROOTS_DASHBOARD, "/staff/products/list"),
+        edit: (productId: string) =>
+          path(ROOTS_DASHBOARD, `/staff/products/${productId}/edit`),
+        // view: (name: string) => path(ROOTS_DASHBOARD, `/products/shop/${name}`),
+      },
+      members: {
+        root: path(ROOTS_DASHBOARD, "/staff/members"),
+        new: path(ROOTS_DASHBOARD, "/staff/members/new"),
+        list: path(ROOTS_DASHBOARD, "/staff/members/list"),
+        edit: (memberId: string) =>
+          path(ROOTS_DASHBOARD, `/staff/members/${memberId}/edit`),
+      },
       notification: path(ROOTS_DASHBOARD, "/staff/notification"),
       invoice: path(ROOTS_DASHBOARD, "/staff/invoice"),
       orders: path(ROOTS_DASHBOARD, "/staff/orders"),
@@ -110,6 +130,8 @@ export const PATH_DASHBOARD = {
           path(ROOTS_DASHBOARD, `/admin/staffs/${staffId}/edit`),
       },
       orders: path(ROOTS_DASHBOARD, "/admin/orders"),
+      purchaseHistory: path(ROOTS_DASHBOARD, "/admin/purchase-history"),
+      booking: path(ROOTS_DASHBOARD, "/admin/booking"),
     },
   },
 };
