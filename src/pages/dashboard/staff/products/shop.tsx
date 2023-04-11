@@ -5,15 +5,16 @@ import { useForm } from "react-hook-form";
 // @mui
 import { Container, Typography, Stack } from "@mui/material";
 import Layout from "../../../../layouts";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../../../../api/products";
+import useSettings from "../../../../hooks/useSettings";
 import Page from "../../../../components/Page";
 import HeaderBreadcrumbs from "../../../../components/HeaderBreadcrumbs";
+import { PATH_DASHBOARD } from "../../../../routes/path";
 import ShopProductSearch from "../../../../sections/auth/dashboard/product/ShopProductSearch";
 import { FormProvider } from "../../../../components/hook-form";
-import ShopProductList from "../../../../sections/auth/dashboard/product/ShopProductList";
 import CartWidget from "../../../../components/CartWidget";
-import { PATH_DASHBOARD } from "../../../../routes/path";
+import { useQuery } from "@tanstack/react-query";
+import { getProducts } from "../../../../api/products";
+import ShopProductList from "../../../../sections/auth/dashboard/product/ShopProductList";
 
 ProductShop.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>;
@@ -65,19 +66,6 @@ export default function ProductShop() {
     setOpenFilter(false);
   };
 
-  const handleResetFilter = () => {
-    if (openFilter) {
-      handleCloseFilter();
-    }
-    reset({
-      gender: [],
-      category: "All",
-      colors: [],
-      priceRange: [0, 200],
-      rating: "",
-    });
-  };
-
   // const handleRemoveCategory = () => {
   //   setValue("category", "All");
   // };
@@ -104,7 +92,7 @@ export default function ProductShop() {
     {
       initialData: { results: [] },
       onSuccess({ products, totalProducts }) {
-        console.log({ products });
+        console.log(products);
         setProductsCount(totalProducts);
         setProducts(products);
       },

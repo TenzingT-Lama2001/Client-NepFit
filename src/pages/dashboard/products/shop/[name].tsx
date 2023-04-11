@@ -160,7 +160,7 @@ export default function EcommerceProductDetails() {
   // };
   const addCart = (payload: any) => {
     const product = payload;
-
+    console.log({ payload });
     const cart = productState!.checkout.cart;
 
     const existingProductIndex = cart.findIndex((p) => p._id === product._id);
