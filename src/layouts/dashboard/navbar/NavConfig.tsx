@@ -5,38 +5,18 @@ import PaidIcon from "@mui/icons-material/Paid";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
 import ClassIcon from "@mui/icons-material/Class";
+import CallIcon from "@mui/icons-material/Call";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
+import ApprovalIcon from "@mui/icons-material/Approval";
 import { PATH_DASHBOARD } from "../../../routes/path";
-// const navConfig = [
-//   {
-//     items: [
-//       {
-//         title: "Schedule",
-//         path: PATH_DASHBOARD.member.schedule,
-//         icon: <CalendarMonthIcon />,
-//       },
-//       {
-//         title: "Membership",
-//         path: PATH_DASHBOARD.member.membership,
-//         icon: <BadgeIcon />,
-//       },
-//       {
-//         title: "Trainer",
-//         path: PATH_DASHBOARD.member.trainer,
-//         icon: <FitnessCenterIcon />,
-//       },
-//       {
-//         title: "Payment",
-//         path: PATH_DASHBOARD.member.payment,
-//         icon: <PaidIcon />,
-//       },
-//       {
-//         title: "Report",
-//         path: PATH_DASHBOARD.member.report,
-//         icon: <AssessmentIcon />,
-//       },
-//     ],
-//   },
-// ];
+import EventNoteIcon from "@mui/icons-material/EventNote";
+import CoPresentIcon from "@mui/icons-material/CoPresent";
+import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import Face3Icon from "@mui/icons-material/Face3";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import SportsGymnasticsIcon from "@mui/icons-material/SportsGymnastics";
 
 const memberNavConfig = [
   {
@@ -64,7 +44,7 @@ const memberNavConfig = [
       {
         title: "Trainers",
         path: PATH_DASHBOARD.dashboard.member.trainers,
-        icon: <DirectionsBikeIcon />,
+        icon: <SportsGymnasticsIcon />,
       },
       {
         title: "Payment",
@@ -76,6 +56,11 @@ const memberNavConfig = [
         path: PATH_DASHBOARD.dashboard.member.report,
         icon: <AssessmentIcon />,
       },
+      {
+        title: "Book a trainer",
+        path: PATH_DASHBOARD.dashboard.member.booking,
+        icon: <CallIcon />,
+      },
     ],
   },
 ];
@@ -85,7 +70,7 @@ const adminNavConfig = [
       {
         title: "Products",
         path: PATH_DASHBOARD.dashboard.admin.products,
-        icon: <CalendarMonthIcon />,
+        icon: <InventoryIcon />,
         children: [
           { title: "shop", path: PATH_DASHBOARD.dashboard.admin.products.shop },
           { title: "list", path: PATH_DASHBOARD.dashboard.admin.products.list },
@@ -110,7 +95,7 @@ const adminNavConfig = [
       {
         title: "Members",
         path: PATH_DASHBOARD.dashboard.admin.members.root,
-        icon: <BadgeIcon />,
+        icon: <PeopleAltIcon />,
         children: [
           { title: "list", path: PATH_DASHBOARD.dashboard.admin.members.list },
           { title: "create", path: PATH_DASHBOARD.dashboard.admin.members.new },
@@ -120,7 +105,7 @@ const adminNavConfig = [
       {
         title: "Trainers",
         path: PATH_DASHBOARD.dashboard.admin.trainers,
-        icon: <FitnessCenterIcon />,
+        icon: <SportsGymnasticsIcon />,
         children: [
           { title: "list", path: PATH_DASHBOARD.dashboard.admin.trainers.list },
           {
@@ -132,7 +117,7 @@ const adminNavConfig = [
       {
         title: "Staffs",
         path: PATH_DASHBOARD.dashboard.admin.staffs,
-        icon: <PaidIcon />,
+        icon: <Face3Icon />,
         children: [
           { title: "list", path: PATH_DASHBOARD.dashboard.admin.staffs.list },
           { title: "create", path: PATH_DASHBOARD.dashboard.admin.staffs.new },
@@ -141,7 +126,17 @@ const adminNavConfig = [
       {
         title: "Orders",
         path: PATH_DASHBOARD.dashboard.admin.orders,
-        icon: <AssessmentIcon />,
+        icon: <AddShoppingCartIcon />,
+      },
+      {
+        title: "Purchase History",
+        path: PATH_DASHBOARD.dashboard.admin.purchaseHistory,
+        icon: <ShoppingBasketIcon />,
+      },
+      {
+        title: "Booking",
+        path: PATH_DASHBOARD.dashboard.admin.booking,
+        icon: <ApprovalIcon />,
       },
     ],
   },
@@ -152,7 +147,7 @@ const trainerNavConfig = [
       {
         title: "Members",
         path: PATH_DASHBOARD.dashboard.trainer.members,
-        icon: <BadgeIcon />,
+        icon: <PeopleAltIcon />,
       },
       {
         title: "Workout",
@@ -162,7 +157,18 @@ const trainerNavConfig = [
       {
         title: "Report",
         path: PATH_DASHBOARD.dashboard.trainer.report,
-        icon: <PaidIcon />,
+        icon: <AssessmentIcon />,
+        children: [
+          {
+            title: "create",
+            path: PATH_DASHBOARD.dashboard.trainer.report.create,
+          },
+        ],
+      },
+      {
+        title: "Booking",
+        path: PATH_DASHBOARD.dashboard.trainer.request,
+        icon: <EventNoteIcon />,
       },
     ],
   },
@@ -173,33 +179,41 @@ const staffNavConfig = [
       {
         title: "Members",
         path: PATH_DASHBOARD.dashboard.staff.members,
-        icon: <BadgeIcon />,
+        icon: <PeopleAltIcon />,
+        children: [
+          { title: "list", path: PATH_DASHBOARD.dashboard.staff.members.list },
+          { title: "create", path: PATH_DASHBOARD.dashboard.staff.members.new },
+        ],
       },
       {
         title: "Products",
         path: PATH_DASHBOARD.dashboard.staff.products,
-        icon: <FitnessCenterIcon />,
+        icon: <InventoryIcon />,
+        children: [
+          { title: "shop", path: PATH_DASHBOARD.dashboard.staff.products.shop },
+          { title: "list", path: PATH_DASHBOARD.dashboard.staff.products.list },
+          {
+            title: "create",
+            path: PATH_DASHBOARD.dashboard.staff.products.new,
+          },
+        ],
       },
       {
         title: "Notification",
         path: PATH_DASHBOARD.dashboard.staff.notification,
-        icon: <PaidIcon />,
+        icon: <NotificationsActiveIcon />,
       },
-      {
-        title: "Invoice",
-        path: PATH_DASHBOARD.dashboard.staff.invoice,
-        icon: <PaidIcon />,
-      },
+
       {
         title: "Orders",
         path: PATH_DASHBOARD.dashboard.staff.orders,
-        icon: <PaidIcon />,
+        icon: <AddShoppingCartIcon />,
       },
 
       {
         title: "Attendance",
         path: PATH_DASHBOARD.dashboard.staff.attendance,
-        icon: <PaidIcon />,
+        icon: <CoPresentIcon />,
         children: [
           {
             title: "list",
