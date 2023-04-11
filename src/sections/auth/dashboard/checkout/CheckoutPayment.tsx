@@ -30,11 +30,11 @@ type FormValuesProps = {
 };
 
 export default function CheckoutPayment() {
-  const { productState, setProductState, stripeDetails } = useAuth();
+  const { productState, setProductState, stripeDetails, auth } = useAuth();
   const { product, checkout } = productState ?? {};
   const { stripeProductId } = stripeDetails ?? {};
   const { subtotal } = checkout ?? {};
-
+  const { id } = auth!;
   const [clientSecret, setClientSecret] = useState("");
   const stripePromise = loadStripe(
     "pk_test_51MndKeDd3klCShsCH0T8NFqdNNo35urZNyL8N04VVqpwbOnOjWoKJzliWIGcqweqqzeg4WmYHT09aSbcZEAr0Br300nFwDVFsh"
@@ -57,14 +57,15 @@ export default function CheckoutPayment() {
   const stripeProductQty = [];
 
   for (let i = 0; i < checkout!.cart.length; i++) {
-    const { stripeProductId, qty, subtotal } = checkout!.cart[i];
-    stripeProductQty.push({ stripeProductId, qty, subtotal });
+    const { stripeProductId, qty, subtotal, name } = checkout!.cart[i];
+    stripeProductQty.push({ stripeProductId, qty, subtotal, name });
   }
   const data = {
     amount,
     stripeProductIdArray,
     stripeProductPriceIdArray,
     stripeProductQty,
+    memberId: id,
   };
   useQuery<any>(
     ["create_payment_intent", data],

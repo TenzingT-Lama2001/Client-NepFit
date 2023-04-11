@@ -87,6 +87,8 @@ export default function CheckoutCart() {
 
   const handleNextStep = () => {
     onNextStep();
+
+    console.log({ cart });
   };
 
   const increaseQuantity = (productId: string) => {
