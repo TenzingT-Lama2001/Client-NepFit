@@ -83,8 +83,10 @@ export default function NotificationTableRow({
     }
   );
 
-  const handleOnClick = () => {};
-  sendNotificationMutation.mutate(email);
+  const handleOnClick = () => {
+    sendNotificationMutation.mutate(email);
+  };
+
   return (
     <TableRow hover selected={selected}>
       <TableCell padding="checkbox">
