@@ -79,7 +79,7 @@ export default function AccountPopover() {
         onClick={handleOpen}
         sx={{ bgcolor: deepOrange[500] }}
         alt="Remy Sharp"
-        // src={memberData?.avatarUrl?.secure_url}
+        src={auth?.avatarUrl?.secure_url}
       />
 
       <Popover
@@ -107,10 +107,10 @@ export default function AccountPopover() {
       >
         <Box sx={{ my: 1.5, px: 2.5 }}>
           <Typography variant="subtitle2" noWrap>
-            Tenzing Lama
+            {auth?.name}
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary" }} noWrap>
-            Tenzing.lama36@gmail.com
+            {auth?.email}
           </Typography>
         </Box>
 

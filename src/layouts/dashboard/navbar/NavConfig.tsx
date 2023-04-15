@@ -32,6 +32,11 @@ const memberNavConfig = [
         icon: <BadgeIcon />,
       },
       {
+        title: "Shop",
+        path: PATH_DASHBOARD.dashboard.member.products.shop,
+        icon: <InventoryIcon />,
+      },
+      {
         title: "Packages",
         path: PATH_DASHBOARD.dashboard.member.packages,
         icon: <ClassIcon />,
@@ -47,8 +52,8 @@ const memberNavConfig = [
         icon: <SportsGymnasticsIcon />,
       },
       {
-        title: "Payment",
-        path: PATH_DASHBOARD.dashboard.member.payment,
+        title: "Purchase history",
+        path: PATH_DASHBOARD.dashboard.member.purchaseHistory,
         icon: <PaidIcon />,
       },
       {
@@ -128,11 +133,11 @@ const adminNavConfig = [
         path: PATH_DASHBOARD.dashboard.admin.orders,
         icon: <AddShoppingCartIcon />,
       },
-      {
-        title: "Purchase History",
-        path: PATH_DASHBOARD.dashboard.admin.purchaseHistory,
-        icon: <ShoppingBasketIcon />,
-      },
+      // {
+      //   title: "Purchase History",
+      //   path: PATH_DASHBOARD.dashboard.admin.purchaseHistory,
+      //   icon: <ShoppingBasketIcon />,
+      // },
       {
         title: "Booking",
         path: PATH_DASHBOARD.dashboard.admin.booking,

@@ -9,9 +9,6 @@ export const useRefreshToken = () => {
 
   const refresh = async () => {
     const response = await axios.get("/api/common/auth/refresh");
-    // console.log("response@@@@@@@@@@@@@@@@@@@@@", response);
-    // console.log("response data role", response.data.role);
-    // console.log("response data accessToken", response.data.accessToken);
     setAuth((prev: any) => ({
       ...prev,
       id: response.data._id,
@@ -20,6 +17,8 @@ export const useRefreshToken = () => {
       role: response.data.role,
       accessToken: response.data.accessToken,
       status: response.data.status,
+      avatarUrl: response.data.avatarUrl,
+      address: response.data.address,
     }));
 
     setStripeDetails((prev: any) => ({
@@ -36,11 +35,6 @@ export const useRefreshToken = () => {
 
     return response.data.accessToken;
   };
-  console.log("USE REFRESH TOKEN SET AUTH", auth);
-  console.log(
-    "USE REFRESH TOKEN SET MEMBERSHIP@@@@@@@@@@@@@@@@@@@@@@@@@",
-    membership
-  );
 
   return refresh;
 };

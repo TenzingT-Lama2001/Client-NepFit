@@ -16,6 +16,10 @@ type AuthContextType = {
     accessToken: string;
     status: string;
     address: string;
+    avatarUrl: {
+      id: string;
+      secure_url: string;
+    };
   } | null;
   setAuth: SetValue;
   currentPlan: {

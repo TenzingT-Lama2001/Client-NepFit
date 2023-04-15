@@ -14,7 +14,7 @@ export const PATH_AUTH = {
   login: path(ROOTS_AUTH, "/login"),
   register: path(ROOTS_AUTH, "/register"),
   resetPassword: path(ROOTS_AUTH, "/reset-password"),
-  newPassword: (token: string) => path(ROOTS_AUTH, `/setup-password/${token}`),
+  newPassword: (token: string) => path(ROOTS_AUTH, `/new-password/${token}`),
 };
 
 export const PATH_PAGE = {
@@ -41,6 +41,10 @@ export const PATH_DASHBOARD = {
       report: path(ROOTS_DASHBOARD, "/member/report"),
       booking: path(ROOTS_DASHBOARD, "/member/booking"),
       checkout: path(ROOTS_DASHBOARD, "/member/packages/checkout"),
+      purchaseHistory: path(ROOTS_DASHBOARD, "/member/purchase-history"),
+      products: {
+        shop: path(ROOTS_DASHBOARD, "/products/shop"),
+      },
     },
 
     trainer: {

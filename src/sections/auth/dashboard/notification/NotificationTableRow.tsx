@@ -84,6 +84,7 @@ export default function NotificationTableRow({
   );
 
   const handleOnClick = () => {
+    console.log(email);
     sendNotificationMutation.mutate(email);
   };
 

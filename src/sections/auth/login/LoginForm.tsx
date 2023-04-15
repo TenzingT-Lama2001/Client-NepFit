@@ -70,6 +70,8 @@ export default function LoginForm() {
         role: data.user.role,
         accessToken: data.accessToken,
         status: data.user.status,
+        address: data.user.address,
+        avatarUrl: data.user.avatarUrl,
       });
       setStripeDetails((prev: any) => ({
         ...prev,

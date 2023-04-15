@@ -26,6 +26,7 @@ const RootStyle = styled("div")(({ theme }) => ({
 
 export default function NavbarAccount() {
   const { auth, setAuth } = useAuth();
+  console.log({ auth });
   const { data: memberData } = useQuery(
     ["get_member_details"],
     () => getMember(auth?.id as string),
@@ -38,7 +39,7 @@ export default function NavbarAccount() {
           <Avatar
             sx={{ bgcolor: deepOrange[500] }}
             alt="Remy Sharp"
-            src={memberData?.avatarUrl?.secure_url}
+            src={auth?.avatarUrl?.secure_url}
           />
           <Box
             sx={{
@@ -50,7 +51,8 @@ export default function NavbarAccount() {
             }}
           >
             <Typography variant="subtitle2" noWrap>
-              {/* {memberData.firstName} {memberData.lastName} */}Random
+              {/* {memberData.firstName} {memberData.lastName} */}
+              {auth?.name}
             </Typography>
           </Box>
         </RootStyle>
