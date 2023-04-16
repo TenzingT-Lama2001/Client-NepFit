@@ -39,7 +39,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useSnackbar } from "notistack";
 // ----------------------------------------------------------------------
 
-const OverlayStyle = styled("div")(({ theme }) => ({
+export const OverlayStyle = styled("div")(({ theme }) => ({
   ...cssStyles().bgBlur({ blur: 1, color: theme.palette.primary.darker }),
   top: 0,
   zIndex: 8,
