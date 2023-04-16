@@ -4,3 +4,7 @@ export const getPrograms = async () => {
 
   return data.data;
 };
+export const getProgramById = async (id: string) => {
+  const { data } = await axios.get(`/api/programs/${id}`);
+  return data.data;
+};

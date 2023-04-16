@@ -119,6 +119,14 @@ export const PATH_DASHBOARD = {
         edit: (packageId: string) =>
           path(ROOTS_DASHBOARD, `/admin/packages/${packageId}/edit`),
       },
+      programs: {
+        root: path(ROOTS_DASHBOARD, "/admin/programs"),
+        new: path(ROOTS_DASHBOARD, "/admin/programs/new"),
+        list: path(ROOTS_DASHBOARD, "/admin/programs/list"),
+
+        edit: (programId: string) =>
+          path(ROOTS_DASHBOARD, `/admin/programs/${programId}/edit`),
+      },
       trainers: {
         root: path(ROOTS_DASHBOARD, "/admin/trainers"),
         new: path(ROOTS_DASHBOARD, "/admin/trainers/new"),
