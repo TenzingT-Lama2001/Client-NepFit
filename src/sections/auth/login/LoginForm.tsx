@@ -89,7 +89,7 @@ export default function LoginForm() {
       if (auth?.role) {
         push(PATH_DASHBOARD.dashboard[auth?.role].root);
       } else {
-        return <LoadingScreen />;
+        return "Loading...";
       }
     },
     onError(err: any) {

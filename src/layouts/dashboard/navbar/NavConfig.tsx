@@ -17,7 +17,7 @@ import InventoryIcon from "@mui/icons-material/Inventory";
 import Face3Icon from "@mui/icons-material/Face3";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SportsGymnasticsIcon from "@mui/icons-material/SportsGymnastics";
-
+import FlightClassIcon from "@mui/icons-material/FlightClass";
 const memberNavConfig = [
   {
     items: [
@@ -94,6 +94,18 @@ const adminNavConfig = [
           {
             title: "create",
             path: PATH_DASHBOARD.dashboard.admin.packages.new,
+          },
+        ],
+      },
+      {
+        title: "Programs",
+        path: PATH_DASHBOARD.dashboard.admin.programs.root,
+        icon: <FitnessCenterIcon />,
+        children: [
+          { title: "list", path: PATH_DASHBOARD.dashboard.admin.programs.list },
+          {
+            title: "create",
+            path: PATH_DASHBOARD.dashboard.admin.programs.new,
           },
         ],
       },

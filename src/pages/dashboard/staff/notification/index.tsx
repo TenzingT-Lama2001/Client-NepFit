@@ -130,11 +130,12 @@ export default function MemberList() {
     {
       initialData: { results: [] },
       onSuccess({ memberships, totalMemberships, membershipData }) {
+        console.log({ membershipData });
         // console.log("members", members);
         setTotalCount(totalMemberships);
-        console.log("total", totalMemberships);
+        // console.log("total", totalMemberships);
         setTableData(membershipData);
-        console.log({ tableData });
+        // console.log({ tableData });
       },
     }
   );
@@ -164,19 +165,6 @@ export default function MemberList() {
           }
         />
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: "background.neutral" }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
           <CustomerTableToolbar
             filterName={filterName}

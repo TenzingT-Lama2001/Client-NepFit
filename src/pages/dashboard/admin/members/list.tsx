@@ -15,10 +15,10 @@ import {
   FormControlLabel,
   Tooltip,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { getMembers } from "../../../../api/member";
+import { deleteMember, getMembers } from "../../../../api/member";
 import HeaderBreadcrumbs from "../../../../components/HeaderBreadcrumbs";
 import Page from "../../../../components/Page";
 import useTable, { emptyRows, getComparator } from "../../../../hooks/useTable";
@@ -41,6 +41,7 @@ import {
 } from "../../../../components/table";
 
 import Layout from "../../../../layouts";
+import { useSnackbar } from "notistack";
 
 const TABLE_HEAD = [
   { id: "firstname", label: "firstname", align: "left" },
@@ -79,7 +80,7 @@ export default function MemberList() {
   const [filterName, setFilterName] = useState("");
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } =
     useTabs("all");
-
+  const { enqueueSnackbar } = useSnackbar();
   const handleFilterName = (filterName: string) => {
     setFilterName(filterName);
     setPage(0);
@@ -89,6 +90,7 @@ export default function MemberList() {
     const deleteRow = tableData.filter((row: any) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
+    deleteMemberMutation.mutate(id);
   };
   const handleDeleteRows = (selected: string[]) => {
     const deleteRows = tableData.filter(
@@ -113,6 +115,20 @@ export default function MemberList() {
   const isNotFound =
     (!dataFiltered.length && !!filterName) ||
     (!dataFiltered.length && !!filterStatus);
+  const deleteMemberMutation = useMutation((id: any) => deleteMember(id), {
+    onSuccess(data) {
+      enqueueSnackbar(data.message);
+      refetch();
+    },
+    onError(err: any) {
+      enqueueSnackbar(
+        err.message ??
+          err.response.data.message ??
+          err.data.message ??
+          "Something went wrong"
+      );
+    },
+  });
   const {
     data: { results },
     isLoading,
@@ -165,19 +181,6 @@ export default function MemberList() {
           }
         />
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: "background.neutral" }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
           <CustomerTableToolbar
             filterName={filterName}

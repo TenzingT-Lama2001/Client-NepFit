@@ -42,7 +42,7 @@ import Layout from "../../../../layouts";
 import { deletePackage, getPackages } from "../../../../api/packages";
 import PackagesTableToolbar from "../../../../sections/auth/dashboard/packages/PackagesTableToolbar";
 import { PackagesTableRow } from "../../../../sections/auth/dashboard/packages";
-import { getProducts } from "../../../../api/products";
+import { deleteProduct, getProducts } from "../../../../api/products";
 import ProductTableRow from "../../../../sections/auth/dashboard/product/ProductTableRow";
 import ProductTableToolbar from "../../../../sections/auth/dashboard/product/ProductTableToolbar";
 
@@ -92,7 +92,7 @@ export default function ProductsList() {
 
   const handleDeleteRow = (id: string) => {
     const deleteRow = tableData.filter((row: any) => row._id !== id);
-    deletePackageMutation.mutate(id);
+    deleteProductMutation.mutate(id);
     setSelected([]);
     setTableData(deleteRow);
   };
@@ -120,7 +120,7 @@ export default function ProductsList() {
     (!dataFiltered.length && !!filterName) ||
     (!dataFiltered.length && !!filterStatus);
 
-  const deletePackageMutation = useMutation((id: any) => deletePackage(id), {
+  const deleteProductMutation = useMutation((id: any) => deleteProduct(id), {
     onSuccess(data) {
       enqueueSnackbar(data.message);
       refetch();
@@ -184,19 +184,6 @@ export default function ProductsList() {
           }
         />
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: "background.neutral" }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
           <ProductTableToolbar
             filterName={filterName}

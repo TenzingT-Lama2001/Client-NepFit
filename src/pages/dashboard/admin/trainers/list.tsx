@@ -15,7 +15,7 @@ import {
   FormControlLabel,
   Tooltip,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { getMembers } from "../../../../api/member";
@@ -37,10 +37,11 @@ import {
 } from "../../../../components/table";
 
 import Layout from "../../../../layouts";
-import { getTrainers } from "../../../../api/trainer";
+import { deleteTrainer, getTrainers } from "../../../../api/trainer";
 import TrainerTableToolbar from "../../../../sections/auth/dashboard/trainer-list/TrainerTableToolbar";
 import TrainerTableRow from "../../../../sections/auth/dashboard/trainer-list/TrainerTableRow";
 import { Trainer } from "../../../../sections/auth/dashboard/trainer-list/TrainerNewEditForm";
+import { useSnackbar } from "notistack";
 
 const TABLE_HEAD = [
   { id: "firstname", label: "firstname", align: "left" },
@@ -80,13 +81,14 @@ export default function TrainerList() {
   const [filterName, setFilterName] = useState("");
   const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } =
     useTabs("all");
-
+  const { enqueueSnackbar } = useSnackbar();
   const handleFilterName = (filterName: string) => {
     setFilterName(filterName);
     setPage(0);
   };
 
   const handleDeleteRow = (id: string) => {
+    deleteTrainerMutation.mutate(id);
     const deleteRow = tableData.filter((row: any) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
@@ -97,11 +99,25 @@ export default function TrainerList() {
     );
     setSelected([]);
     setTableData(deleteRows);
+    // deleteTrainerMutation.mutate(id);
   };
   const handleEditRow = (memberId: string) => {
     push(PATH_DASHBOARD.dashboard.admin.trainers.edit(paramCase(memberId)));
   };
-
+  const deleteTrainerMutation = useMutation((id: any) => deleteTrainer(id), {
+    onSuccess(data) {
+      enqueueSnackbar(data.message);
+      refetch();
+    },
+    onError(err: any) {
+      enqueueSnackbar(
+        err.message ??
+          err.response.data.message ??
+          err.data.message ??
+          "Something went wrong"
+      );
+    },
+  });
   const dataFiltered = applySortFilter({
     tableData,
     comparator: getComparator(order, orderBy),
@@ -166,19 +182,6 @@ export default function TrainerList() {
           }
         />
         <Card>
-          <Tabs
-            allowScrollButtonsMobile
-            variant="scrollable"
-            scrollButtons="auto"
-            value={filterStatus}
-            onChange={onChangeFilterStatus}
-            sx={{ px: 2, bgcolor: "background.neutral" }}
-          >
-            {STATUS_OPTIONS.map((tab) => (
-              <Tab disableRipple key={tab} label={tab} value={tab} />
-            ))}
-          </Tabs>
-
           <Divider />
           <TrainerTableToolbar
             filterName={filterName}

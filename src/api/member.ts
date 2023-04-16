@@ -35,3 +35,9 @@ export const createMember = async (member: any) => {
   const { data } = await axios.post(`/api/admin/members`, member);
   return data;
 };
+
+export const getMemberByTrainerId = async (id: string) => {
+  const { data } = await axios.get(`/api/admin/members/${id}/members`);
+  console.log("API DATA", data.data);
+  return data.data;
+};
