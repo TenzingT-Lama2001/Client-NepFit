@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 // @mui
 import { styled } from "@mui/material/styles";
 import Logo from "../pages/Logo";
+import { Box } from "@mui/material";
+import Image from "../components/Image";
 
 // components
 
@@ -28,7 +30,12 @@ type Props = {
 export default function LogoOnlyLayout({ children }: Props) {
   return (
     <>
-      <HeaderStyle>{/* <Logo /> */}</HeaderStyle>
+      <HeaderStyle>
+        {" "}
+        <Box height="3rem" width="3rem">
+          <Image disabledEffect src={`/assets/logo.png`} />
+        </Box>
+      </HeaderStyle>
       {children}
     </>
   );

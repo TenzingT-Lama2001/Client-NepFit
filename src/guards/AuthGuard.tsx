@@ -28,7 +28,7 @@ export default function AuthGuard({ children }: Props) {
   }, [isAuthenticated, pathname, push, requestedLocation]);
 
   if (!isInitialized) {
-    return <LoadingScreen />;
+    return "Loading...";
   }
 
   if (!isAuthenticated) {

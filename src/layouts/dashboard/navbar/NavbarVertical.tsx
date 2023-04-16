@@ -12,6 +12,8 @@ import NavbarAccount from "./NavbarAccount";
 import navConfig from "./NavConfig";
 import NavSectionVertical from "../../../components/nav-section/vertical";
 import useAuth from "../../../hooks/useAuth";
+import Image from "../../../components/Image";
+import { NepfitLogo } from "../../../assets";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("lg")]: {
@@ -34,7 +36,8 @@ export default function NavbarVertical({
   const { pathname } = useRouter();
   const isDesktop = useResponsive("up", "lg");
   const { auth } = useAuth();
-
+  const path = "../../../../public/assets/";
+  const logoUrl = path + "logo.png";
   const {
     isCollapse,
     collapseClick,
@@ -93,7 +96,9 @@ export default function NavbarVertical({
             alignItems="center"
             justifyContent="space-between"
           >
-            <Logo />
+            <Box height="3rem" width="3rem">
+              <Image disabledEffect src={`/assets/logo.png`} />
+            </Box>
           </Stack>
         )}
         <NavbarAccount />
@@ -125,7 +130,9 @@ export default function NavbarVertical({
             alignItems="center"
             padding={2}
           >
-            {/* <Logo /> */}
+            <Box height="3rem" width="3rem">
+              <Image disabledEffect src={`/assets/logo.png`} />
+            </Box>
             <Iconify
               icon="ci:close-big"
               sx={{

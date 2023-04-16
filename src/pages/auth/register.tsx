@@ -85,7 +85,9 @@ export default function Register() {
     <Page title="Register">
       <RootStyle>
         <HeaderStyle>
-          {/* <Logo /> */}
+          <Box height="3rem" width="3rem">
+            <Image disabledEffect src={`/assets/logo.png`} />
+          </Box>
           {smUp && (
             <Typography variant="body2" sx={{ mt: { md: -2 } }}>
               Already have an account?

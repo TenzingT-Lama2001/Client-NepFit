@@ -66,7 +66,7 @@ export default function Login() {
   const smUp = useResponsive("up", "sm");
   const mdUp = useResponsive("up", "md");
   const refresh = useRefreshToken();
-const { auth, setAuth } = useAuth();
+  const { auth, setAuth } = useAuth();
   const { push } = useRouter();
 
   const autoLogin = async () => {
@@ -96,7 +96,9 @@ const { auth, setAuth } = useAuth();
       <Page title="Login">
         <RootStyle>
           <HeaderStyle>
-            {/* <Logo /> */}
+            <Box height="3rem" width="3rem">
+              <Image disabledEffect src={`/assets/logo.png`} />
+            </Box>
             {smUp && (
               <Typography variant="body2" sx={{ mt: { md: -2 } }}>
                 Don’t have an account? {""}
