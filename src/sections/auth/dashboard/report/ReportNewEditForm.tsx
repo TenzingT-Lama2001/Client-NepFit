@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
-import { Member } from "../../../../pages/dashboard/admin/members/list2";
+
 import * as Yup from "yup";
 import { isBefore } from "date-fns";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -40,6 +40,7 @@ import RHFSelect from "../../../../components/hook-form/RHFSelect";
 import { createProduct, updateProduct } from "../../../../api/products";
 import useAuth from "../../../../hooks/useAuth";
 import { createReport, getMembersByTrainerId } from "../../../../api/report";
+import { Member } from "../../../../pages/dashboard/admin/members/list2";
 
 export type Report = {
   member: string;
@@ -91,14 +92,27 @@ export default function ReportNewEditForm({
       conclusion: Yup.string(),
     });
   }
-  const { data: members } = useQuery(
+  const {
+    data: members,
+    refetch,
+    isLoading,
+  } = useQuery<{ members: Member[] }>(
     ["get_members_membership"],
     () => getMembersByTrainerId(auth?.id as string),
-    {}
+    {
+      enabled: !!auth?.id,
+    }
   );
+  console.log(members);
+  useEffect(() => {
+    refetch();
+  }, [auth?.id]);
   const defaultValues = useMemo(
     () => ({
-      member: currentReport?.member || members?.members[0]?.email,
+      member:
+        currentReport?.member ||
+        (members?.members && members?.members[0]?.email) ||
+        "",
       trainer: currentReport?.trainer,
       introduction: currentReport?.introduction,
       workout: currentReport?.workout,
@@ -156,6 +170,7 @@ export default function ReportNewEditForm({
         ...data,
         trainer: trainerId,
       };
+      console.log("member id", data);
       console.log(data);
       console.log(reportData);
       createReportMutation.mutate(reportData);
@@ -163,7 +178,7 @@ export default function ReportNewEditForm({
       console.log(err);
     }
   };
-
+  const membersData = members ?? { members: [] };
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={3}>
@@ -197,14 +212,24 @@ export default function ReportNewEditForm({
           <Stack spacing={3}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3} mt={2}>
-                {members?.members[0] && (
-                  <RHFSelect name="member" label="Member">
-                    {members?.members?.map((member: any) => (
-                      <option key={member.email} value={member.email}>
-                        {member.email}
-                      </option>
-                    ))}
-                  </RHFSelect>
+                {!isLoading ? (
+                  <>
+                    {" "}
+                    <option value="" disabled hidden>
+                      Select a member
+                    </option>
+                    {membersData?.members && membersData.members?.[0] && (
+                      <RHFSelect name="member" label="Member">
+                        {membersData.members.map((member: any) => (
+                          <option key={member.email} value={member.email}>
+                            {member.email}
+                          </option>
+                        ))}
+                      </RHFSelect>
+                    )}
+                  </>
+                ) : (
+                  <h2>loading..</h2>
                 )}
               </Stack>
             </Card>
