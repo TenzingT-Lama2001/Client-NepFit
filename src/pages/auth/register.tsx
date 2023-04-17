@@ -128,14 +128,15 @@ export default function Register() {
             <Typography
               variant="body2"
               align="center"
-              sx={{ color: "text.secondary" }}
+              sx={{ color: "text.secondary", mt: ".3rem" }}
             >
-              By registering, I agree to NepFit&nbsp;
+              By registering, I agree to NepFit{""} &nbsp;
               <Link underline="always" color="text.primary" href="#">
-                Terms of Service
+                Terms of Service {""}
               </Link>
               {""}and{""}
               <Link underline="always" color="text.primary" href="#">
+                {" "}
                 Privacy Policy
               </Link>
             </Typography>

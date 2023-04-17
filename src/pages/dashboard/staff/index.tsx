@@ -5,11 +5,13 @@ import RoleBasedGuard from "../../../guards/RoleBasedGuard";
 import Layout from "../../../layouts";
 import AppWelcome from "../../../sections/app/AppWelcome";
 import AppWidgetSummary from "../../../sections/app/AppWidegetSummary";
+import useAuth from "../../../hooks/useAuth";
 
 StaffDashboard.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>;
 };
 export default function StaffDashboard() {
+  const { auth } = useAuth();
   return (
     <RoleBasedGuard roles={["staff"]} hasContent>
       <Page title="Dashboard">
@@ -17,7 +19,7 @@ export default function StaffDashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12}>
               <AppWelcome
-                title="Welcome back Staff"
+                title={`Welcome back ${auth?.name}`}
                 description="This is the Staff dashboard"
                 img={
                   <SeoIllustration
@@ -33,13 +35,13 @@ export default function StaffDashboard() {
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <AppWidgetSummary title="Total staffs " total={50} />
+              <AppWidgetSummary title="Total members " total={3} />
             </Grid>
             <Grid item xs={12} md={4}>
-              <AppWidgetSummary title="Total trainers" total={5} />
+              <AppWidgetSummary title="Total trainers" total={2} />
             </Grid>
             <Grid item xs={12} md={4}>
-              <AppWidgetSummary title="Total members" total={32} />
+              <AppWidgetSummary title="Total staffs" total={1} />
             </Grid>
           </Grid>
         </Container>

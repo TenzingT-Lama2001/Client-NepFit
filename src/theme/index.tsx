@@ -40,7 +40,7 @@ export default function ThemeProvider({ children }: Props) {
   return (
     <MUIThemeProvider theme={theme}>
       <CssBaseline>{children}</CssBaseline>
-      <ToggleMode />
+      {/* <ToggleMode /> */}
     </MUIThemeProvider>
   );
 }

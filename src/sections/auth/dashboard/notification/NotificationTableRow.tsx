@@ -69,7 +69,7 @@ export default function NotificationTableRow({
     (email: string) => sendNotification(email),
     {
       onSuccess(data) {
-        enqueueSnackbar(data.message);
+        enqueueSnackbar("Notification sent successfully");
         console.log({ data });
       },
       onError(err: any) {

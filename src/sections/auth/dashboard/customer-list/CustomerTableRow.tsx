@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import Iconify from "../../../../components/Iconify";
 import { PATH_DASHBOARD } from "../../../../routes/path";
 import { TableMoreMenu } from "../../../../components/table";
+import Label from "../../../../components/Label";
 
 // ----------------------------------------------------------------------
 
@@ -89,7 +90,16 @@ export default function ProductTableRow({
 
       <TableCell align="left">{email}</TableCell>
 
-      <TableCell align="left">{status ? status : "Inactive"}</TableCell>
+      <TableCell align="left">
+        {" "}
+        <Label
+          variant={theme.palette.mode === "light" ? "ghost" : "filled"}
+          color={status ? "Active" && "success" : "Inactive" && "error"}
+          sx={{ textTransform: "capitalize" }}
+        >
+          {status ? status : "Inactive"}
+        </Label>
+      </TableCell>
       <TableCell align="right">
         <TableMoreMenu
           open={openMenu}

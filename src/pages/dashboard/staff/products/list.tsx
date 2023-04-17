@@ -104,7 +104,7 @@ export default function ProductsList() {
     setTableData(deleteRows);
   };
   const handleEditRow = (memberId: string) => {
-    push(PATH_DASHBOARD.dashboard.admin.packages.edit(paramCase(memberId)));
+    push(PATH_DASHBOARD.dashboard.admin.products.edit(paramCase(memberId)));
   };
 
   const dataFiltered = applySortFilter({

@@ -57,14 +57,14 @@ type Props = {
 };
 
 const CATEGORY_OPTION = [
-  { group: "Clothing", classify: ["Shirts", "T-shirts", "Jeans", "Leather"] },
+  { group: "Clothing", classify: ["Shirts", "T-shirts", "Joggers", "Jackets"] },
   {
-    group: "Tailored",
-    classify: ["Suits", "Blazers", "Trousers", "Waistcoats"],
+    group: "Supplements",
+    classify: ["Protein", "Creatine", "Tablets", "Fat burners"],
   },
   {
     group: "Accessories",
-    classify: ["Shoes", "Backpacks and bags", "Bracelets", "Face masks"],
+    classify: ["Shoes", "Bands", "Jump rope", "Compressions"],
   },
 ];
 export interface CustomFile extends File {

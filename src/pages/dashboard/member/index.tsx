@@ -6,12 +6,15 @@ import useRefreshToken from "../../../hooks/useRefreshToken";
 import Layout from "../../../layouts";
 import AppWelcome from "../../../sections/app/AppWelcome";
 import AppWidgetSummary from "../../../sections/app/AppWidegetSummary";
+import useAuth from "../../../hooks/useAuth";
 
 MemberDashboard.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>;
 };
 export default function MemberDashboard() {
   const refresh = useRefreshToken();
+  const { auth } = useAuth();
+
   return (
     <RoleBasedGuard roles={["member"]} hasContent>
       <Page title="Dashboard">
@@ -19,7 +22,7 @@ export default function MemberDashboard() {
           <Grid container spacing={3}>
             <Grid item xs={12} md={12}>
               <AppWelcome
-                title="Welcome back Member"
+                title={`Welcome back ${auth?.name}`}
                 description="This is the member dashboard"
                 img={
                   <SeoIllustration
@@ -39,13 +42,13 @@ export default function MemberDashboard() {
             </Grid>
 
             <Grid item xs={12} md={4}>
-              <AppWidgetSummary title="Total days remaining" total={3} />
+              <AppWidgetSummary title="Total members" total={3} />
             </Grid>
             <Grid item xs={12} md={4}>
-              <AppWidgetSummary title="Total days remaining" total={3} />
+              <AppWidgetSummary title="Total trainers" total={2} />
             </Grid>
             <Grid item xs={12} md={4}>
-              <AppWidgetSummary title="Total days remaining" total={3} />
+              <AppWidgetSummary title="Total programs" total={3} />
             </Grid>
           </Grid>
         </Container>
