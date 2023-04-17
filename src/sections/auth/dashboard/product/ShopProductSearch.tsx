@@ -92,7 +92,7 @@ export default function ShopProductSearch() {
       onInputChange={(event, value) => handleChangeSearch(value)}
       getOptionLabel={(product: Products) => product.name}
       noOptionsText={<SearchNotFound searchQuery={searchQuery} />}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
+      isOptionEqualToValue={(option, value) => option._id === value._id}
       renderInput={(params) => (
         <InputStyle
           {...params}

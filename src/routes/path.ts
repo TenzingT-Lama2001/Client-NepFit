@@ -30,6 +30,10 @@ export const PATH_PAGE = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   dashboard: {
+    profile: {
+      edit: (userId: string) =>
+        path(ROOTS_DASHBOARD, `/profile/${userId}/edit`),
+    },
     member: {
       root: MEMBER_DASHBOARD,
       schedule: path(ROOTS_DASHBOARD, "/member/schedule"),
@@ -45,6 +49,8 @@ export const PATH_DASHBOARD = {
       products: {
         shop: path(ROOTS_DASHBOARD, "/products/shop"),
       },
+      edit: (memberId: string) =>
+        path(ROOTS_DASHBOARD, `/member/${memberId}/edit`),
     },
 
     trainer: {
@@ -57,10 +63,14 @@ export const PATH_DASHBOARD = {
         create: path(ROOTS_DASHBOARD, "/trainer/report/new"),
         list: path(ROOTS_DASHBOARD, "/trainer/report/list"),
       },
+      edit: (trainerId: string) =>
+        path(ROOTS_DASHBOARD, `/trainer/${trainerId}/edit`),
     },
 
     staff: {
       root: STAFF_DASHBOARD,
+      edit: (staffId: string) =>
+        path(ROOTS_DASHBOARD, `/staff/${staffId}/edit`),
       products: {
         shop: path(ROOTS_DASHBOARD, "/products/shop"),
         root: path(ROOTS_DASHBOARD, "/staff/products"),

@@ -62,7 +62,6 @@ export default function LoginForm() {
 
   const loginMutation = useMutation((data: FormValuesProps) => login(data), {
     onSuccess(data) {
-      console.log("LOGIN DATA!@@@@@@@@@@@@@@@@@", data);
       setAuth({
         id: data.user._id,
         name: data.user.firstName,
@@ -83,7 +82,6 @@ export default function LoginForm() {
         packageId: data.membership.packages,
         trainerId: data.membership.trainer,
       });
-      console.log("MEMBERSHIP FROM LOGIN@@@@@@@@@@@@@@", { membership });
       enqueueSnackbar(data.message || "Login Successful");
       reset();
       if (auth?.role) {
@@ -93,8 +91,6 @@ export default function LoginForm() {
       }
     },
     onError(err: any) {
-      console.log("in mutation");
-      console.log("err", err);
       enqueueSnackbar(
         err.response.data.message ??
           err.message ??
@@ -104,14 +100,10 @@ export default function LoginForm() {
       );
     },
   });
-
-  console.log({ auth });
   const onSubmit = async (data: FormValuesProps) => {
     try {
       loginMutation.mutate(data);
     } catch (error: any) {
-      console.log({ error });
-
       if (isMountedRef.current) {
         setError("afterSubmit", {
           ...error,
@@ -120,7 +112,6 @@ export default function LoginForm() {
       }
     }
   };
-
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={3}>
@@ -149,7 +140,6 @@ export default function LoginForm() {
           }}
         />
       </Stack>
-
       <Stack
         direction="row"
         alignItems="center"
@@ -161,7 +151,6 @@ export default function LoginForm() {
           <Link variant="subtitle2">Forgot password?</Link>
         </NextLink>
       </Stack>
-
       <LoadingButton
         fullWidth
         size="large"

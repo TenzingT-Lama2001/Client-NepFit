@@ -210,18 +210,16 @@ export default function OrderList() {
 
               <TableBody>
                 {data?.length > 0 ? (
-                  data
-                    // .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row: any) => (
-                      <PurchaseHistoryTableRow
-                        key={row._id}
-                        row={row}
-                        selected={selected.includes(row._id)}
-                        onSelectRow={() => onSelectRow(row._id)}
-                        onDeleteRow={() => handleDeleteRow(row._id)}
-                        onEditRow={() => handleEditRow(row._id)}
-                      />
-                    ))
+                  data.map((row: any) => (
+                    <PurchaseHistoryTableRow
+                      key={row._id}
+                      row={row}
+                      selected={selected.includes(row._id)}
+                      onSelectRow={() => onSelectRow(row._id)}
+                      onDeleteRow={() => handleDeleteRow(row._id)}
+                      onEditRow={() => handleEditRow(row._id)}
+                    />
+                  ))
                 ) : (
                   <TableNoData isNotFound={data ? false : true} />
                 )}
@@ -261,40 +259,3 @@ export type Order = {
   amount: number;
   deliveryStatus: "delivered" | "pending";
 };
-
-// function applySortFilter({
-//   tableData,
-//   comparator,
-//   filterName,
-//   filterStatus,
-// }: {
-//   tableData: Order[];
-//   comparator: (a: any, b: any) => number;
-//   filterName: string;
-//   filterStatus: string;
-// }) {
-//   const stabilizedThis = tableData.map((el, index) => [el, index] as const);
-
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0]);
-//     if (order !== 0) return order;
-//     return a[1] - b[1];
-//   });
-
-//   tableData = stabilizedThis.map((el) => el[0]);
-
-//   if (filterName) {
-//     tableData = tableData.filter(
-//       (item: Record<string, any>) =>
-//         item?.firstName?.toLowerCase().indexOf(filterName.toLowerCase()) !== -1
-//     );
-//   }
-
-//   if (filterStatus !== "all") {
-//     tableData = tableData.filter(
-//       (item: Record<string, any>) => item.status === filterStatus
-//     );
-//   }
-
-//   return tableData;
-// }

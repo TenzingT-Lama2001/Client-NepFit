@@ -87,11 +87,11 @@ export default function ShopProductCard({ product }: Props) {
                 component="span"
                 sx={{ color: "text.disabled", textDecoration: "line-through" }}
               >
-                {price}
+                ${price + 10}
               </Typography>
             )}
 
-            <Typography variant="subtitle1">{price}</Typography>
+            <Typography variant="subtitle1">${price}</Typography>
           </Stack>
         </Stack>
       </Stack>

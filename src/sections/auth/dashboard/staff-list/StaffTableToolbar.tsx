@@ -28,7 +28,7 @@ export default function StaffTableToolbar({ filterName, onFilterName }: Props) {
       <TextField
         value={filterName}
         onChange={(event) => onFilterName(event.target.value)}
-        placeholder={"Search Trainer" + "..."}
+        placeholder={"Search staff" + "..."}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

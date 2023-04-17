@@ -136,7 +136,7 @@ export default function Membership() {
                 <MembershipWidgetSummary
                   title="Your program"
                   total={capitalCaseTransform(programName)}
-                  icon={"ant-design:android-filled"}
+                  icon={"material-symbols:fitness-center-rounded"}
                 />
               </Grid>
 
@@ -145,7 +145,7 @@ export default function Membership() {
                   title="Your package"
                   total={capitalCaseTransform(packageName)}
                   color="info"
-                  icon={"ant-design:apple-filled"}
+                  icon={"ph:package-bold"}
                 />
               </Grid>
 
@@ -154,7 +154,7 @@ export default function Membership() {
                   title="Expires In"
                   total={remainingDays + " " + "days"}
                   color="warning"
-                  icon={"ant-design:windows-filled"}
+                  icon={"lucide:calendar-days"}
                 />
               </Grid>
 
@@ -163,7 +163,7 @@ export default function Membership() {
                   title="Status"
                   total={member.status}
                   color={member.status == "Active" ? "success" : "error"}
-                  icon={"ant-design:bug-filled"}
+                  icon={"pajamas:status-closed"}
                 />
               </Grid>
             </Grid>

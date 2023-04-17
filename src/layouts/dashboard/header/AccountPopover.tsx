@@ -14,20 +14,11 @@ import {
 import { deepOrange } from "@mui/material/colors";
 import { logout } from "../../../api/auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { PATH_AUTH } from "../../../routes/path";
+import { PATH_AUTH, PATH_DASHBOARD } from "../../../routes/path";
 import useAuth from "../../../hooks/useAuth";
 import { getMember } from "../../../api/member";
+import { paramCase } from "change-case";
 
-const MENU_OPTIONS = [
-  {
-    label: "Home",
-    linkTo: "/",
-  },
-  {
-    label: "Profile",
-    linkTo: "/",
-  },
-];
 export default function AccountPopover() {
   const { push } = useRouter();
 
@@ -35,7 +26,22 @@ export default function AccountPopover() {
   const [open, setOpen] = useState<HTMLElement | null>(null);
   const { auth, setAuth, setCurrentPlan, setStripeDetails, setMembership } =
     useAuth();
-
+  const currentRole = auth?.role;
+  // const profileLink = `${
+  //   PATH_DASHBOARD.dashboard
+  // }.${currentRole}.edit(${paramCase(auth!.id)})`;
+  const profileLink =
+    auth?.id && `${PATH_DASHBOARD.dashboard.member.edit(paramCase(auth.id))}`;
+  const MENU_OPTIONS = [
+    {
+      label: "Home",
+      linkTo: "/",
+    },
+    {
+      label: "Profile",
+      linkTo: profileLink || "",
+    },
+  ];
   const handleClose = () => {
     setOpen(null);
   };
@@ -121,6 +127,14 @@ export default function AccountPopover() {
               <MenuItem key={option.label}>{option.label}</MenuItem>
             </NextLink>
           ))}
+          {/* <NextLink key="home" href="/" passHref>
+            <MenuItem key="Home">Home</MenuItem>
+          </NextLink>
+          {auth?.id && (
+            <NextLink key="home" href={`${profileLink}`} passHref>
+              <MenuItem key="Profile">Profile</MenuItem>
+            </NextLink>
+          )} */}
         </Stack>
         <Divider sx={{ borderStyle: "dashed" }} />
         <MenuItem sx={{ m: 1 }} onClick={() => handleLogout()}>

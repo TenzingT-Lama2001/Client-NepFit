@@ -124,9 +124,6 @@ export default function CalendarForm({ event, range, onCancel }: Props) {
           events: [...prevState.events, workout],
         }));
         console.log({ calendarState });
-
-        // push(PATH_DASHBOARD.dashboard.trainer.root);
-        // reset();
       },
       onError(err: any) {
         enqueueSnackbar(
@@ -141,36 +138,7 @@ export default function CalendarForm({ event, range, onCancel }: Props) {
   );
 
   const id = event._id;
-  // const deleteMemberMutation = useMutation((id: any) => deleteWorkout(id), {
-  //   onSuccess(data: any) {
-  //     enqueueSnackbar(data.message);
-  //     const { workout } = data;
-  //     const deleteEvent = calendarState?.events?.filter((event) => {
-  //       if (event?._id !== workout?._id) {
-  //         return workout;
-  //       }
-  //       return event;
-  //     });
 
-  //     setCalendarState((prevState: any) => ({
-  //       ...prevState,
-  //       isLoading: false,
-  //       events: deleteEvent,
-  //     }));
-  //     console.log({ calendarState });
-
-  //     // push(PATH_DASHBOARD.dashboard.trainer.root);
-  //     // reset();
-  //   },
-  //   onError(err: any) {
-  //     enqueueSnackbar(
-  //       err.message ??
-  //         err.response.data.message ??
-  //         err.data.message ??
-  //         "Something went wrong"
-  //     );
-  //   },
-  // });
   const deleteWorkoutMutation = useMutation((id: any) => deleteWorkout(id), {
     onSuccess(data: any) {
       enqueueSnackbar(data.message);

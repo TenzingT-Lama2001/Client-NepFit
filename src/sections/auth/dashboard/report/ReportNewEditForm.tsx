@@ -100,7 +100,7 @@ export default function ReportNewEditForm({
     ["get_members_membership"],
     () => getMembersByTrainerId(auth?.id as string),
     {
-      enabled: !!auth?.id,
+      // enabled: !!auth?.id,
     }
   );
   console.log(members);
@@ -111,8 +111,7 @@ export default function ReportNewEditForm({
     () => ({
       member:
         currentReport?.member ||
-        (members?.members && members?.members[0]?.email) ||
-        "",
+        (members?.members && members?.members[0]?.email),
       trainer: currentReport?.trainer,
       introduction: currentReport?.introduction,
       workout: currentReport?.workout,

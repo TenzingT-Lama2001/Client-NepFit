@@ -38,9 +38,7 @@ export default function BookingTrainersList() {
       }),
     {
       initialData: { results: [] },
-      onSuccess(data) {
-        console.log("TRAINERS DATA!!!!!!!!!!!!!!!!!!!!", data);
-      },
+      onSuccess(data) {},
     }
   );
 

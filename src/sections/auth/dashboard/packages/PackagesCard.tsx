@@ -26,23 +26,6 @@ const RootStyle = styled(Card)(({ theme }) => ({
   },
 }));
 
-// ----------------------------------------------------------------------
-
-// type Props = {
-//   card: {
-//     subscription: string;
-//     price: number;
-//     caption: string;
-//     icon: ReactElement;
-//     labelAction: string;
-//     lists: {
-//       text: string;
-//       isAvailable: boolean;
-//     }[];
-//   };
-//   index: number;
-// };
-
 export default function PackagesCard({ card, index }: any) {
   const {
     name,

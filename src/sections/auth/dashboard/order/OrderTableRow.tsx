@@ -19,11 +19,12 @@ import { useRouter } from "next/router";
 import Iconify from "../../../../components/Iconify";
 import { PATH_DASHBOARD } from "../../../../routes/path";
 import { TableMoreMenu } from "../../../../components/table";
-import { useMutation, useQueries } from "@tanstack/react-query";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 import { getOrderByStripeProductId, updateOrder } from "../../../../api/order";
 import RHFSelect from "../../../../components/hook-form/RHFSelect";
 import { SelectChangeEvent } from "@mui/material";
 import { useSnackbar } from "notistack";
+import { getMember } from "../../../../api/member";
 
 // ----------------------------------------------------------------------
 
@@ -49,7 +50,15 @@ export default function OrderTableRow({
     row;
   const [status, setStatus] = useState(deliveryStatus);
   console.log("row@@@@@@@", row);
-
+  const { data: result_member } = useQuery<any>(
+    ["get_member"],
+    () => getMember(memberId as string),
+    {
+      onSuccess(data) {
+        console.log("member data", data);
+      },
+    }
+  );
   console.log({ products });
   const [openMenu, setOpenMenuActions] = useState<HTMLElement | null>(null);
 
@@ -107,17 +116,9 @@ export default function OrderTableRow({
       </TableCell>
 
       <TableCell sx={{ display: "flex", alignItems: "center" }}>
-        <Link
-          component="button"
-          variant="caption"
-          onClick={() => {
-            // push(PATH_DASHBOARD.menu.customers.view(paramCase(id)));
-          }}
-        >
-          <Typography variant="subtitle2" noWrap>
-            {memberId}
-          </Typography>
-        </Link>
+        <Typography variant="subtitle2" noWrap>
+          {result_member?.firstName} {result_member?.lastName}
+        </Typography>
       </TableCell>
 
       <TableCell>{shippingAddress}</TableCell>
