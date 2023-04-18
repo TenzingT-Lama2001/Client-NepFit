@@ -58,7 +58,7 @@ export default function CheckoutSummary({
             <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Sub Total
             </Typography>
-            <Typography variant="subtitle2">{subtotal}</Typography>
+            <Typography variant="subtitle2">${subtotal}</Typography>
           </Stack>
 
           <Stack direction="row" justifyContent="space-between">
@@ -76,7 +76,7 @@ export default function CheckoutSummary({
             <Typography variant="subtitle1">Total</Typography>
             <Box sx={{ textAlign: "right" }}>
               <Typography variant="subtitle1" sx={{ color: "error.main" }}>
-                {subtotal}
+                ${subtotal}
               </Typography>
               <Typography variant="caption" sx={{ fontStyle: "italic" }}>
                 (VAT included if applicable)

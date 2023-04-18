@@ -273,13 +273,13 @@ export default function Workout() {
   };
 
   return (
-    <Page title="Calendar">
+    <Page title="Workout">
       <Container maxWidth="xl">
         <HeaderBreadcrumbs
-          heading="Calendar"
+          heading="Workout"
           links={[
             { name: "Dashboard", href: PATH_DASHBOARD.root },
-            { name: "Calendar" },
+            { name: "Workout" },
           ]}
           action={
             <Button

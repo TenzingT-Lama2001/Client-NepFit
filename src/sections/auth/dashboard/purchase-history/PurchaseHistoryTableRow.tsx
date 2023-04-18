@@ -71,7 +71,7 @@ export default function PurchaseHistoryTableRow({
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setOpenMenuActions(event.currentTarget);
   };
-
+  console.log({ deliveryStatus });
   const handleCloseMenu = () => {
     setOpenMenuActions(null);
   };
@@ -105,16 +105,16 @@ export default function PurchaseHistoryTableRow({
           >{`${product.name} - ${product.qty}`}</Typography>
         ))}{" "}
       </TableCell>
-      <TableCell align="left">{amount}</TableCell>
+      <TableCell align="left">${amount / 100}</TableCell>
       <TableCell align="left">
         <Label
           variant={theme.palette.mode === "light" ? "ghost" : "filled"}
           color={
-            deliveryStatus ? "delivered" && "success" : "pending" && "error"
+            deliveryStatus == "delivered" ? "success" : "pending" && "error"
           }
           sx={{ textTransform: "capitalize" }}
         >
-          {deliveryStatus ? "Purchased" : "pending"}
+          {deliveryStatus}
         </Label>
       </TableCell>
       {/* <TableCell align="left">{deliveryStatus}</TableCell> */}

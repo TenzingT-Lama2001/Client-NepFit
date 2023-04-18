@@ -14,6 +14,7 @@ import {
   Box,
   Dialog,
   Paper,
+  Alert,
 } from "@mui/material";
 import Layout from "../../../../layouts";
 import useResponsive from "../../../../hooks/useResponsive";
@@ -95,7 +96,23 @@ export default function Workout() {
   //     selectedRange: null,
   //   });
   if (!membership?.membershipId) {
-    return <h2>NO MEMBERSHIP</h2>;
+    return (
+      <Page title="Schedule">
+        <Container maxWidth="xl">
+          <HeaderBreadcrumbs
+            heading="Schedule"
+            links={[
+              { name: "Dashboard", href: PATH_DASHBOARD.root },
+              { name: "Schedule" },
+            ]}
+          />{" "}
+          <Alert severity="info" sx={{ mb: 3 }}>
+            There is no current membership. If you have purchased a membership,
+            it will be activated within a day.
+          </Alert>
+        </Container>
+      </Page>
+    );
   }
   const startLoading = () => {
     setCalendarState((prevState: any) => ({

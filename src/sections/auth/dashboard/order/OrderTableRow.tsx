@@ -130,7 +130,7 @@ export default function OrderTableRow({
           >{`${product.name} - ${product.qty}`}</Typography>
         ))}{" "}
       </TableCell>
-      <TableCell align="left">{amount}</TableCell>
+      <TableCell align="left">${amount / 100}</TableCell>
 
       <Select value={status} label="status" onChange={handleChange}>
         <MenuItem value={"pending"}>Pending</MenuItem>

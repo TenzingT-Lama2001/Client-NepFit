@@ -13,6 +13,7 @@ import {
   Divider,
   CardHeader,
   Grid,
+  Alert,
 } from "@mui/material";
 import Layout from "../../../../layouts";
 import useResponsive from "../../../../hooks/useResponsive";
@@ -107,7 +108,23 @@ export default function Membership() {
     }
   );
   if (!membership?.membershipId) {
-    return <h2>NO MEMBERSHIP</h2>;
+    return (
+      <Page title="Membership">
+        <Container maxWidth="xl">
+          <HeaderBreadcrumbs
+            heading="Membership"
+            links={[
+              { name: "Dashboard", href: PATH_DASHBOARD.root },
+              { name: "Membership" },
+            ]}
+          />{" "}
+          <Alert severity="info" sx={{ mb: 3 }}>
+            There is no current membership. If you have purchased a membership,
+            it will be activated within a day.
+          </Alert>
+        </Container>
+      </Page>
+    );
   }
 
   const programName: string = program?.name;

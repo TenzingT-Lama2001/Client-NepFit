@@ -118,7 +118,7 @@ function CheckoutProductListRow({
         </Stack>
       </TableCell>
 
-      <TableCell>{price}</TableCell>
+      <TableCell>${price}</TableCell>
 
       <TableCell>
         <Incrementer
@@ -129,7 +129,7 @@ function CheckoutProductListRow({
         />
       </TableCell>
 
-      <TableCell align="right">{price * qty}</TableCell>
+      <TableCell align="right">${price * qty}</TableCell>
 
       <TableCell align="right">
         <IconButton onClick={onDelete}>

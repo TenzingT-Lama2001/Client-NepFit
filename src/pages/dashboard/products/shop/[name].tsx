@@ -40,6 +40,7 @@ import { sum, uniqBy } from "lodash";
 import ProductDetailsSummary, {
   CartItem,
 } from "../../../../sections/auth/dashboard/product/ProductDetailsSummary";
+import Image from "../../../../components/Image";
 
 // ----------------------------------------------------------------------
 
@@ -111,6 +112,7 @@ export default function EcommerceProductDetails() {
           ...prevState,
           product: products,
         }));
+        console.log({ products });
       },
       onError() {
         setError(true);
@@ -261,8 +263,15 @@ export default function EcommerceProductDetails() {
             <Card>
               <Grid container>
                 <Grid item xs={12} md={6} lg={7}>
-                  {/* <ProductDetailsCarousel product={product} /> */}
+                  {" "}
+                  <Image
+                    key={productState?.product[0].imageUrl.secure_url}
+                    alt="large image"
+                    src={productState?.product[0].imageUrl.secure_url}
+                    ratio="1/1"
+                  />
                 </Grid>
+
                 <Grid item xs={12} md={6} lg={5}>
                   <ProductDetailsSummary
                     product={productState?.product}

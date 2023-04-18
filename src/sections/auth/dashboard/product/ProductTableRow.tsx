@@ -80,7 +80,7 @@ export default function ProductTableRow({
       </TableCell>
 
       <TableCell>{description}</TableCell>
-      <TableCell align="left">{price}</TableCell>
+      <TableCell align="left">${price}</TableCell>
 
       <TableCell align="left">
         <Label

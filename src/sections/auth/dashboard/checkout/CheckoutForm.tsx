@@ -7,6 +7,8 @@ import {
 import { LoadingButton } from "@mui/lab";
 import { useSnackbar } from "notistack";
 import useAuth from "../../../../hooks/useAuth";
+import { useRouter } from "next/router";
+import { PATH_DASHBOARD } from "../../../../routes/path";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -14,6 +16,7 @@ export default function CheckoutForm() {
   const [message, setMessage] = useState<string | undefined>("");
   const [isLoading, setIsLoading] = useState(false);
   const { auth } = useAuth();
+  const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -32,7 +35,7 @@ export default function CheckoutForm() {
       confirmParams: {
         // Make sure to change this to your payment completion page
         receipt_email: auth?.email,
-        return_url: `http://localhost:3000/dashboard/products/shop`,
+        return_url: `http://localhost:3000/dashboard/member/purchase-history`,
         payment_method_data: {
           billing_details: {
             email: auth?.email,
@@ -54,8 +57,9 @@ export default function CheckoutForm() {
     } else {
       enqueueSnackbar("Payment Successful");
     }
-
+    enqueueSnackbar("Payment Successful");
     setIsLoading(false);
+    push(PATH_DASHBOARD.dashboard.member.purchaseHistory);
   };
 
   return (

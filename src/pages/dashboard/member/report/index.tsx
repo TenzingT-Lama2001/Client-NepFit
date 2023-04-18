@@ -120,16 +120,6 @@ export default function ReportList() {
                     </Button>
                   </ListItem>
                 </List>
-                {/* <Typography mr={2}>{formattedDate}</Typography>
-                <Button variant="contained">
-                  <a
-                    href={url}
-                    download={`${report.date}.pdf`}
-                    style={{ textDecoration: "none", color: "inherit" }}
-                  >
-                    Download Report
-                  </a>{" "}
-                </Button> */}
               </div>
             );
           })}
