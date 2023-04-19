@@ -19,7 +19,6 @@ import { useEffect, useState } from "react";
 import useRefreshToken from "../../hooks/useRefreshToken";
 import { useRouter } from "next/router";
 import useAuth from "../../hooks/useAuth";
-import LoadingScreen from "../../components/LoadingScreen";
 
 const RootStyle = styled("div")(({ theme }) => ({
   [theme.breakpoints.up("md")]: {
@@ -74,7 +73,6 @@ export default function Login() {
       const response = await refresh();
       console.log("response", response);
       if (response && auth?.role) {
-        console.log("auth!!!!!!!!!!!!!!!!!!!!!", auth);
         push(`${PATH_DASHBOARD.dashboard[auth.role].root}`);
       }
     } catch (err) {

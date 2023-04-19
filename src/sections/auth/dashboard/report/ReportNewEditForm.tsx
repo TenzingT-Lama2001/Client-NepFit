@@ -169,6 +169,7 @@ export default function ReportNewEditForm({
         ...data,
         trainer: trainerId,
       };
+      console.log("members", members);
       console.log("member id", data);
       console.log(data);
       console.log(reportData);

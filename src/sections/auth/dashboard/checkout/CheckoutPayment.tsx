@@ -47,6 +47,7 @@ export default function CheckoutPayment() {
   //     .then(({ clientSecret }) => setClientSecret(clientSecret));
   // }, []);
   const amount = subtotal!;
+  console.log({ checkout });
   const stripeProductIdArray = checkout?.cart.map(
     (product) => product.stripeProductId
   );
@@ -67,6 +68,7 @@ export default function CheckoutPayment() {
     stripeProductQty,
     memberId: id,
   };
+  console.log({ data });
   useQuery<any>(
     ["create_payment_intent", data],
     () => createPaymentIntent(data),
@@ -119,6 +121,7 @@ export default function CheckoutPayment() {
   const PaymentSchema = Yup.object().shape({
     payment: Yup.string().required("Payment is required!"),
   });
+  console.log({ clientSecret });
 
   return (
     <Grid container spacing={3}>

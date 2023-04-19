@@ -62,9 +62,7 @@ export default function Register() {
   const autoLogin = async () => {
     try {
       const response = await refresh();
-      console.log("response", response);
       if (response && auth?.role) {
-        console.log("auth!!!!!!!!!!!!!!!!!!!!!", auth);
         push(`${PATH_DASHBOARD.dashboard[auth.role].root}`);
       }
     } catch (err) {

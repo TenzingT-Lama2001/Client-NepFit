@@ -161,7 +161,7 @@ export default function ProductDetailsSummary({
         stripeProductPriceId,
       });
       console.log({ stripeProductId, stripeProductPriceId });
-
+      console.log({ cart });
       reset(defaultValues);
     } catch (error) {
       console.error(error);

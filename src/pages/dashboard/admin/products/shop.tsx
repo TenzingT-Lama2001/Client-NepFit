@@ -30,13 +30,7 @@ export default function ProductShop() {
   // const filteredProducts = applyFilter(products, sortBy, filters);
   const [products, setProducts] = useState(null);
   const [productsCount, setProductsCount] = useState(0);
-  const defaultValues = {
-    // gender: filters.gender,
-    // category: filters.category,
-    // colors: filters.colors,
-    // priceRange: filters.priceRange,
-    // rating: filters.rating,
-  };
+  const defaultValues = {};
 
   const methods = useForm({
     defaultValues,
@@ -46,18 +40,6 @@ export default function ProductShop() {
 
   const values = watch();
 
-  // const min = values.priceRange[0];
-
-  // const max = values.priceRange[1];
-
-  // const isDefault =
-  //   min === 0 &&
-  //   max === 200 &&
-  //   !values.rating &&
-  //   values.gender.length === 0 &&
-  //   values.colors.length === 0 &&
-  //   values.category === "All";
-
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -65,8 +47,6 @@ export default function ProductShop() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
-
-
 
   // const handleRemoveCategory = () => {
   //   setValue("category", "All");

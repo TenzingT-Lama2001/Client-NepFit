@@ -20,11 +20,13 @@ import {
   Switch,
   InputAdornment,
   IconButton,
+  useTheme,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { RHFUploadAvatar } from "../../../../components/hook-form/RHFUpload";
 import Iconify from "../../../../components/Iconify";
 import axios from "axios";
+import Label from "../../../../components/Label";
 type Props = {
   isEdit?: boolean;
   currentMember?: Member;
@@ -48,7 +50,7 @@ export default function MemberNewEditForm({
   const { push, query } = useRouter();
   const { memberId } = query;
   const { enqueueSnackbar } = useSnackbar();
-
+  const theme = useTheme();
   let NewMemberSchema;
   if (isEdit) {
     NewMemberSchema = Yup.object().shape({
@@ -222,42 +224,6 @@ export default function MemberNewEditForm({
     },
     [setValue]
   );
-  // const handleDrop = useCallback(
-  //   async (acceptedFiles: File[]) => {
-  //     console.log("accepted files!!!!", acceptedFiles);
-
-  //     //cloudinary url with cloud name
-  //     const url = `https://api.cloudinary.com/v1_1/degovxk3x`;
-  //     const response = await axios.post(url);
-  //   },
-  //   [setValue]
-  // );
-
-  // const handleDrop = useCallback(
-  //   (acceptedFiles: File[]) => {
-  //     const file = acceptedFiles[0];
-  //     const reader = new FileReader();
-  //     reader.onload = () => {
-  //       console.log("reader result", reader.result);
-  //       const customFile: CustomFile = Object.assign(file, {
-  //         preview: URL.createObjectURL(reader.result as any),
-  //       });
-  //       setValue("avatarUrl", customFile);
-  //       console.log("customFile", customFile);
-  //     };
-
-  //     reader.readAsDataURL(file);
-  //   },
-  //   [setValue]
-  // );
-
-  // const setFileToBase = (file) =>{
-  //   const reader = new FileReader();
-  //   reader.readAsDataURL(file);
-  //   reader.onloadend = () =>{
-  //     setValue("avatarUrl")
-  //   }
-  // }
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -265,18 +231,22 @@ export default function MemberNewEditForm({
         <Grid item xs={12} md={4}>
           <Card sx={{ py: 7, px: 3, position: "relative" }}>
             {isEdit && (
-              <Button
-                size="small"
-                variant="contained"
-                color={values.status !== "active" ? "error" : "success"}
+              <Label
+                variant={theme.palette.mode === "light" ? "ghost" : "filled"}
+                color={
+                  currentMember?.status
+                    ? "Active" && "success"
+                    : "Inactive" && "error"
+                }
                 sx={{
+                  textTransform: "uppercase",
                   position: "absolute",
-                  top: 30,
-                  right: 10,
+                  top: 24,
+                  right: 24,
                 }}
               >
-                <Typography fontSize="12px">Inactive</Typography>
-              </Button>
+                {currentMember?.status ? currentMember?.status : "Inactive"}
+              </Label>
             )}
 
             <Box sx={{ mb: 5 }}>
