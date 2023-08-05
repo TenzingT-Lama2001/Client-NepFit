@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useState } from "react";
-import LoadingScreen from "../components/LoadingScreen";
 import useAuth from "../hooks/useAuth";
 import Login from "../pages/auth/login";
 
@@ -27,9 +26,9 @@ export default function AuthGuard({ children }: Props) {
     }
   }, [isAuthenticated, pathname, push, requestedLocation]);
 
-  if (!isInitialized) {
-    return "Loading...";
-  }
+  // if (!isInitialized) {
+  //   return "Loading...";
+  // }
 
   if (!isAuthenticated) {
     if (pathname !== requestedLocation) {

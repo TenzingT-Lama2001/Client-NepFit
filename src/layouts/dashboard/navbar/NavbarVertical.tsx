@@ -52,7 +52,7 @@ export default function NavbarVertical({
       onCloseSidebar();
     }
   }, [pathname]);
-  let navList;
+  let navList:any;
   switch (auth?.role) {
     case "admin":
       navList = navConfig.adminNavConfig;
